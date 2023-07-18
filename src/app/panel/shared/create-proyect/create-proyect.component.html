@@ -1,0 +1,49 @@
+<div class="create-proyect">
+  <h1 mat-dialog-title>Crear un proyecto</h1>
+  <div mat-dialog-content>
+    <form [formGroup]="createProyectForm" (ngSubmit)="createProyect()" class="form-create-proyect">
+      <mat-form-field color="accent">
+        <input matInput type="email" placeholder="Nombre Proyecto" formControlName="Nombre" required>
+        <mat-error>
+          Debes ingresar el nombre al proyecto
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field color="accent">
+        <textarea matInput placeholder="Descripcion" formControlName="Descripcion" required></textarea>
+        <mat-error>
+          Debe ingresar una direccion
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Fecha de conclución de proyecto</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="FechaFin">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label>Lider de Proyecto</mat-label>
+        <mat-select name="food" formControlName="IdUsuario">
+          <mat-option *ngFor="let item of listUser" [value]="item">
+            <ng-container *ngIf="item.foto; else noPhoto" style="margin: 0.5rem;">
+              <img src="{{ item.foto }}" alt="Foto" width="50" height="50" class="rounded-circle">
+            </ng-container>
+            <span style="margin-left: 10px;">{{ item.nombresCompleto }}</span>
+            <ng-template #noPhoto>
+              <span style="margin-left: 10px;">{{ item.nombresCompleto }}</span>
+            </ng-template>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-raised-button color="accent" [disabled]="this.createProyectForm.invalid">Crear</button>
+    </form>
+    <div mat-dialog-actions>
+      <button mat-button mat-dialog-close>Cerrar</button>
+    </div>
+  </div>
+
+</div>

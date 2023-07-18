@@ -1,0 +1,36 @@
+:host{
+  display: block;
+  z-index: 3;
+}
+
+mat-toolbar{
+  display: flex;
+  justify-content: space-between;
+
+  .user-info{
+    display: flex;
+    align-items: center;
+    span{
+      margin-left: 0.5rem;
+    }
+    img{
+      transform: scale(1.4);
+      margin-bottom: 8px;
+    }
+  }
+}
+
+.input-group{
+  width: 360px;
+
+}
+
+.custom-input-group{
+  border-radius: 50px !important;
+}
+
+@media screen and (max-width: 680px) {
+  .custom-input-group{
+    display: none;
+  }
+}

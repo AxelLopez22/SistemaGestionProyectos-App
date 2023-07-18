@@ -1,0 +1,42 @@
+i {
+  font-size: 20px;
+  vertical-align: middle;
+  margin-right: 10px; /* ajusta el margen derecho según necesites */
+}
+
+span {
+  font-size: 16px;
+  //font-weight: bold;
+  vertical-align: middle;
+}
+
+mat-list-item:hover{
+  background-color: #323232;
+  border-radius: 20px;
+}
+
+mat-list-item:hover span{
+  //padding-left: 10px;
+  transition: 0.5s;
+}
+
+.active{
+  background-color: #303030;
+  border-radius: 20px;
+  //margin: 0 10px 0 10px;
+}
+
+
+.section-proyect{
+  margin-top: 20px;
+}
+
+.custom-expansion-panel {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.title-proyects{
+  font-size: 1.2rem;
+  font-weight: bold;
+}

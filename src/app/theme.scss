@@ -1,0 +1,56 @@
+@use "@angular/material" as mat;
+@include mat.core();
+
+$dark-primary: mat.define-palette(mat.$pink-palette);
+$dark-accent: mat.define-palette(mat.$blue-palette, A200, A100, A400);
+$dark-warn: mat.define-palette(mat.$gray-palette);
+
+
+$dark-theme: mat.define-dark-theme(
+  (
+    color:(
+      primary: $dark-primary,
+      accent: $dark-accent,
+      warn: $dark-warn
+    ),
+  )
+);
+
+//Primary
+$dark-primary-50: mat.get-color-from-palette($dark-primary, 50);
+$dark-primary-100: mat.get-color-from-palette($dark-primary, 100);
+$dark-primary-200: mat.get-color-from-palette($dark-primary, 200);
+$dark-primary-300: mat.get-color-from-palette($dark-primary, 300);
+$dark-primary-400: mat.get-color-from-palette($dark-primary, 400);
+$dark-primary-500: mat.get-color-from-palette($dark-primary, 500);
+$dark-primary-600: mat.get-color-from-palette($dark-primary, 600);
+$dark-primary-700: mat.get-color-from-palette($dark-primary, 700);
+$dark-primary-800: mat.get-color-from-palette($dark-primary, 800);
+$dark-primary-900: mat.get-color-from-palette($dark-primary, 900);
+$dark-primary-A200: mat.get-color-from-palette($dark-primary, A200);
+
+//Accent
+$dark-accent-50: mat.get-color-from-palette($dark-accent, 50);
+$dark-accent-100: mat.get-color-from-palette($dark-accent, 100);
+$dark-accent-200: mat.get-color-from-palette($dark-accent, 200);
+$dark-accent-300: mat.get-color-from-palette($dark-accent, 300);
+$dark-accent-400: mat.get-color-from-palette($dark-accent, 400);
+$dark-accent-500: mat.get-color-from-palette($dark-accent, 500);
+$dark-accent-600: mat.get-color-from-palette($dark-accent, 600);
+$dark-accent-700: mat.get-color-from-palette($dark-accent, 700);
+$dark-accent-800: mat.get-color-from-palette($dark-accent, 800);
+$dark-accent-900: mat.get-color-from-palette($dark-accent, 900);
+$dark-accent-A200: mat.get-color-from-palette($dark-accent, A200);
+
+//Warn
+$dark-warn-50: mat.get-color-from-palette($dark-warn, 50);
+$dark-warn-100: mat.get-color-from-palette($dark-warn, 100);
+$dark-warn-200: mat.get-color-from-palette($dark-warn, 200);
+$dark-warn-300: mat.get-color-from-palette($dark-warn, 300);
+$dark-warn-400: mat.get-color-from-palette($dark-warn, 400);
+$dark-warn-500: mat.get-color-from-palette($dark-warn, 500);
+$dark-warn-600: mat.get-color-from-palette($dark-warn, 600);
+$dark-warn-700: mat.get-color-from-palette($dark-warn, 700);
+$dark-warn-800: mat.get-color-from-palette($dark-warn, 800);
+$dark-warn-900: mat.get-color-from-palette($dark-warn, 900);
+$dark-warn-A200: mat.get-color-from-palette($dark-warn, A200);

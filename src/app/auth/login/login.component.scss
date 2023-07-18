@@ -1,0 +1,48 @@
+@import "../../theme.scss";
+
+:host{
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  background-color: #424242;
+  //background-color: aqua;
+}
+
+mat-card {
+  color: white;
+  display: flex;
+  text-align: center;
+  width: 30%;
+  background-color: #545454;
+  //box-shadow: 5px 5px 20px $dark-primary-100;
+  margin: auto;
+  text-align: center;
+  border: 1px solid $dark-primary-100;
+
+  h2{
+    color: $dark-warn-A200;
+  }
+}
+
+mat-form-field {
+  padding: 5px;
+  display: block;
+}
+
+button{
+  margin: 0.6rem;
+}
+
+
+@media screen and (max-width: 900px) {
+  mat-card {
+    width: 50%;
+  }
+}
+
+
+@media screen and (max-width: 580px) {
+  mat-card {
+    width: 80%;
+  }
+}

@@ -1,0 +1,25 @@
+<mat-list role="list">
+  <mat-list-item role="listitem" *ngFor="let option of sideNavContent" routerLink="{{option.route}}"
+      routerLinkActive="active" style="cursor: pointer;"
+      [routerLinkActiveOptions]="{exact: true}">
+    <i class="{{option.icon}}"></i>
+    <span>{{option.label | titlecase}}</span>
+  </mat-list-item>
+</mat-list>
+
+<mat-divider></mat-divider>
+
+<!--Seccion de proyectos-->
+<div class="section-proyect">
+  <mat-expansion-panel class="custom-expansion-panel" expanded>
+    <mat-expansion-panel-header>
+      <mat-panel-title class="title-proyects">Proyectos</mat-panel-title>
+      <!-- <button mat-mini-fab><mat-icon>add</mat-icon></button> -->
+    </mat-expansion-panel-header>
+    <mat-nav-list class="item-custom-proyect">
+      <a mat-list-item *ngFor="let proyecto of proyectos" [routerLink]="['proyecto', proyecto.idProyecto]">{{proyecto.nombre}}</a>
+    </mat-nav-list>
+  </mat-expansion-panel>
+</div>
+
+<mat-divider class="mt-4"></mat-divider>

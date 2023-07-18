@@ -1,0 +1,88 @@
+.main-home{
+  margin: 1.5rem 1.2rem;
+}
+
+.section-name{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 20vh;
+  margin-top: 10px;
+
+  span{
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+
+  h1{
+    letter-spacing: 1px;
+  }
+}
+
+.section-task{
+  background-color: #545454;
+  width: 70%;
+  height: 50px;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px 0 20px;
+
+  .select-task{
+    padding: 0 1rem;
+    border-right: 1px solid white;
+  }
+
+  .form-select{
+    background-color: #545454;
+    color: white;
+
+    option{
+      font-size: 1rem;
+    }
+  }
+}
+
+mat-card{
+  padding: 1rem;
+}
+
+.info-tareas-card{
+  display: flex;
+  flex-direction: column;
+}
+
+img{
+  transform: scale(1.4);
+  margin-bottom: 8px;
+}
+
+h2{
+  margin-left: 30px;
+}
+
+mat-card{
+  margin-bottom: 2rem;
+}
+
+@media screen and (max-width: 1000px) {
+
+  .name{
+    font-size: 15px;
+  }
+
+  .section-task{
+    width: 100%;
+
+    .colaborator{
+      display: none;
+    }
+
+    span{
+      font-size: 15px;
+    }
+  }
+}
