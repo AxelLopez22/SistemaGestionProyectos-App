@@ -14,6 +14,8 @@ export class SideNavComponent implements OnInit {
   sideNavContent = sidenavdata
   proyectos: projectSideNav[] = [];
   usuarioId!: number;
+
+  
   constructor(private httpService: ProyectService, private userService: LoginServicesService){}
 
   ngOnInit(): void {

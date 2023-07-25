@@ -9,7 +9,7 @@
                aria-label="State"
                [matAutocomplete]="auto"
                [formControl]="stateCtrl">
-        <mat-autocomplete #auto="matAutocomplete">
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="agregarUsuario()">
           <mat-option *ngFor="let state of filteredStates | async" [value]="state.nombresCompleto">
             <img alt="" class="example-option-img rounded-circle" [src]="state.foto" height="40" width="40">
             <span>{{state.nombresCompleto}}</span>
@@ -22,8 +22,18 @@
     <!-- <mat-divider class="mb-3"></mat-divider> -->
 
     <div class="card-content-user">
-
+      <div class="list-user-proyect" *ngFor="let element of usuariosSeleccionados">
+        <ng-container *ngIf="element.foto; else noPhoto" style="margin: 0.5rem;">
+          <img src="{{ element.foto }}" alt="Foto" width="50" height="50" class="rounded-circle">
+        </ng-container>
+        <span style="margin-left: 10px;">{{ element.nombresCompleto }}</span>
+        <ng-template #noPhoto>
+          <span style="margin-left: 10px;">{{ element.nombresCompleto }}</span>
+        </ng-template>
+      </div>
     </div>
+
+    <button class="mt-4" color="accent" style="width: 100%;" mat-raised-button (click)="enviarUsuarios()">Agregar usuarios</button>
 
     <div mat-dialog-actions>
       <button mat-button mat-dialog-close>Cerrar</button>

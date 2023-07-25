@@ -37,7 +37,9 @@ import { AddUsuariosProyectComponent } from './shared/add-usuarios-proyect/add-u
     NgxSpinnerModule,
     HttpClientModule,
     ReactiveFormsModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-center'
+    })
   ],
   schemas:[CUSTOM_ELEMENTS_SCHEMA],
   providers:[

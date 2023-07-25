@@ -29,3 +29,25 @@ export interface ProyectByUser{
   descripcion: string,
   estado: boolean
 }
+
+export interface ProyectUser{
+  idProyecto: number,
+  nombre: string,
+  descripcion: string,
+  estado: string
+}
+
+export interface AddUserProyect{
+  idproyecto: number,
+  idUsuario: number[]
+}
+
+export interface UserLeaderProyect{
+  idUsuario: number,
+  nombresCompleto: string | undefined
+}
+
+export interface Estados{
+  idEstado: number,
+  nombre: string
+}

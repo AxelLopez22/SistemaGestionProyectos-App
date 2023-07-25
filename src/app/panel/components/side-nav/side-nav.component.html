@@ -17,7 +17,8 @@
       <!-- <button mat-mini-fab><mat-icon>add</mat-icon></button> -->
     </mat-expansion-panel-header>
     <mat-nav-list class="item-custom-proyect">
-      <a mat-list-item *ngFor="let proyecto of proyectos" [routerLink]="['proyecto', proyecto.idProyecto]">{{proyecto.nombre}}</a>
+      <a mat-list-item *ngFor="let proyecto of proyectos" 
+      [routerLink]="['proyecto', proyecto.idProyecto]" matTooltip="{{proyecto.nombre}}">{{proyecto.nombre}}</a>
     </mat-nav-list>
   </mat-expansion-panel>
 </div>

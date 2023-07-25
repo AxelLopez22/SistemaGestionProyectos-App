@@ -5,6 +5,7 @@ import { CreateProyect, UserSelect } from '../../models/models';
 import { ToastrService } from 'ngx-toastr';
 import { ProyectService } from '../../services/proyect.service';
 import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-create-proyect',
@@ -50,6 +51,7 @@ export class CreateProyectComponent implements OnInit{
       next:(res:any) => {
         if(res.success === true){
           this.showAlert(true, res.message);
+          this.router.navigate(['panel/home']);
         } else {
           this.showAlert(false, res.message);
         }

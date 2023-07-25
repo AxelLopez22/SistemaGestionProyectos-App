@@ -10,13 +10,55 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+}
 
+.proyect-info{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   span{
     margin-left: 2rem;
   }
 }
+.name-leader {
+  margin-left: auto;
+  //font-size: 1.1rem;
 
+  .mat-select{
+    padding: 0;
+    margin: 0;
+  }
+}
 
 .info{
   margin-top: 1rem;
+}
+
+.card-user{
+  display: flex;
+  flex-direction: row;
+  border: 1px solid whitesmoke;
+  border-radius: 20px;
+  height: 300px;
+}
+
+.list-user-proyect{
+  margin: 5px 10px 5px 10px;
+}
+
+@media screen and (max-width: 600px) {
+  .card-user{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid whitesmoke;
+    border-radius: 20px;
+    height: 300px;
+  }
+
+  .options{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+  }
 }

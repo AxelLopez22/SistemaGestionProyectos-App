@@ -1,35 +1,78 @@
-<div class="proyect">
+<div class="proyect" *ngIf="proyecto">
   <div class="options">
-    <h1>NombreProyecto</h1>
-    <span>Estado</span>
+    <div class="proyect-info">
+      <h1>{{proyecto.nombre}}</h1>
+      <span>{{proyecto.estado}}</span>
+    </div>
+    
+    <div class="name-leader">
+      <select class="form-select form-select-sm" style="background-color: #545454; color: white;"
+      (change)="onSelectEstado($event)">
+        <option value="" disabled selected>-- Cambiar estado --</option>
+        <option *ngFor="let estado of state" [value]="estado.idEstado">{{estado.nombre}}</option>
+      </select>
+      <!-- <mat-form-field class="mat-select" style="width: 200px; height: 70px;">
+        <mat-label>Estado de Proyecto</mat-label>
+        <mat-select name="food">
+          <mat-option *ngFor="let estado of state" [value]="estado.idEstado">
+            {{estado.nombre}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field> -->
+    </div>
+    <!-- <span class="name-leader"><strong>Lider:</strong> {{leaderProyect.nombresCompleto}}</span> -->
   </div>
   <mat-divider></mat-divider>
   <mat-tab-group>
     <mat-tab label="Resumen">
-      <div class="info">
-        <h2>Descripcion</h2>
-        <span>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quo, nulla? Sunt, et adipisci facilis officia
-          praesentium fuga nisi neque eveniet!</span>
-      </div>
+      <mat-spinner style="display: flex; margin: 10rem auto;" *ngIf="loader; else resume"></mat-spinner>
 
-      <mat-divider class="mt-4"></mat-divider>
-
-      <div class="mt-4" style="overflow: hidden;">
-        <h2>Agregar usuarios</h2>
-        <button color="primary" mat-raised-button (click)="openModal()">Agregar Integrantes</button>
-
-        <div class="card-user mt-4" style="height: 200px;">
-
+      <ng-template #resume>
+        <div class="info">
+          <h2>Descripcion</h2>
+          <span>{{proyecto.descripcion}}</span>
         </div>
-      </div>
+  
+        <mat-divider class="mt-4"></mat-divider>
+  
+        <div class="mt-4" style="overflow: hidden;">
+          <h2>Agregar usuarios</h2>
+          <button color="primary" mat-raised-button (click)="openModal()">Agregar Integrantes</button>
+  
+          <div class="card-user mt-4" style="padding: 20px;">
+            <div class="list-user-proyect" *ngFor="let element of userProyect" 
+              style="border: 1px solid white; height: min-content; padding: 5px; border-radius: 20px;">
+              <ng-container *ngIf="element.foto; else noPhoto">
+                <img src="{{ element.foto }}" alt="Foto" width="50" height="50" class="rounded-circle">
+              </ng-container>
+              <span style="margin-left: 10px;">{{ element.nombresCompleto }}</span>
+              <ng-template #noPhoto>
+                <span style="margin-left: 10px;">{{ element.nombresCompleto }}</span>
+              </ng-template>
+              <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="deleteUserToProyect(element.idUsuario)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Eliminar de este proyecto</span>
+                </button>
+              </mat-menu>
+            </div>
+          </div>
+  
+          <button class="mt-3" color="primary" mat-raised-button (click)="guardarUsuarios()">Guardar Cambios</button>
+        </div>
+      </ng-template>
+      
     </mat-tab>
     <mat-tab label="Lista"> Content 2 </mat-tab>
     <mat-tab label="Tablero"> Content 3 </mat-tab>
-    <mat-tab label="Cronograma"> Content 3 </mat-tab>
-    <mat-tab label="Calendario"> Content 3 </mat-tab>
-    <mat-tab label="Flujo de trabajo"> Content 3 </mat-tab>
-    <mat-tab label="Panel"> Content 3 </mat-tab>
-    <mat-tab label="Mensajes"> Content 3 </mat-tab>
-    <mat-tab label="Archivos"> Content 3 </mat-tab>
+    <mat-tab label="Cronograma"> Estamos trabajando </mat-tab>
+    <mat-tab label="Calendario"> Estamos trabajando </mat-tab>
+    <mat-tab label="Flujo de trabajo"> Estamos trabajando </mat-tab>
+    <mat-tab label="Panel"> Estamos trabajando </mat-tab>
+    <mat-tab label="Mensajes"> Estamos trabajando </mat-tab>
+    <mat-tab label="Archivos"> Estamos trabajando </mat-tab>
   </mat-tab-group>
 </div>
