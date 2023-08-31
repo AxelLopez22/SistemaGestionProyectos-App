@@ -5,6 +5,8 @@ import { Login } from '../models/models';
 import { LoginServicesService } from '../services/login-services.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -15,8 +17,13 @@ export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
   hide = true;
+ 
+  
+  
   constructor(private fb: FormBuilder, private route: Router, private httpService: LoginServicesService, private spinner: NgxSpinnerService,
     private toastr: ToastrService){
+      
+
     this.loginForm = this.fb.group({
       email: fb.control('', [Validators.required]),
       password: fb.control('', [
@@ -25,10 +32,11 @@ export class LoginComponent implements OnInit {
         Validators.maxLength(15)
       ])
     });
+
+    
   }
 
   ngOnInit(): void {
-
   }
 
   login(){
@@ -36,12 +44,13 @@ export class LoginComponent implements OnInit {
       email: this.loginForm.get('email')?.value,
       password: this.loginForm.get('password')?.value
     }
-
+    
     this.httpService.login(user).subscribe({
       next:(res: any) => {
         this.spinner.show();
         if(res.success === true){
           this.spinner.show();
+          
           this.httpService.saveToken(res.data.token);
           //localStorage.setItem("user-info", JSON.stringify(user.));
           setTimeout(() => {

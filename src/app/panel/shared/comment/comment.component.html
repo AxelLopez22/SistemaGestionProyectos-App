@@ -1,0 +1,11 @@
+<div *ngFor="let comment of comments" class="comment">
+  <div class="user-photo">
+    <img [src]="comment.foto" alt="User Photo" class="photo">
+  </div>
+  <div class="comment-details">
+    <div class="comment-user">
+      <span>{{ comment.usuario }}</span>
+    </div>
+    <p>{{ comment.descripcion }}</p>
+  </div>
+</div>

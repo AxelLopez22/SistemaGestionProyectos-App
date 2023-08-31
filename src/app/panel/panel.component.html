@@ -1,7 +1,7 @@
 <app-navbar (menuClicked)="sideNav.toggle()"></app-navbar>
 
 <mat-sidenav-container>
-  <mat-sidenav [mode]="!breakpoint ? 'side' : 'over'" #sideNav (window:resize)="onResize($event)" style="width: 280px;"
+  <mat-sidenav [mode]="!breakpoint ? 'side' : 'over'" #sideNav (window:resize)="onResize($event)" style="width: 250px;"
   [opened]="!breakpoint">
     <app-side-nav></app-side-nav>
   </mat-sidenav>

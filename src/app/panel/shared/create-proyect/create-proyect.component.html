@@ -29,7 +29,7 @@
         <mat-select name="food" formControlName="IdUsuario">
           <mat-option *ngFor="let item of listUser" [value]="item">
             <ng-container *ngIf="item.foto; else noPhoto" style="margin: 0.5rem;">
-              <img src="{{ item.foto }}" alt="Foto" width="50" height="50" class="rounded-circle">
+              <img src="{{ item.foto }}" alt="Foto" width="50" height="50" class="rounded-circle" style="padding: 8px;">
             </ng-container>
             <span style="margin-left: 10px;">{{ item.nombresCompleto }}</span>
             <ng-template #noPhoto>

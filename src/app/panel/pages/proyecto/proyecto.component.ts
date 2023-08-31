@@ -1,12 +1,13 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { UsuariosService } from '../../services/usuarios.service';
 import { AddUsuariosProyectComponent } from '../../shared/add-usuarios-proyect/add-usuarios-proyect.component';
 import { ActivatedRoute } from '@angular/router';
 import { ProyectService } from '../../services/proyect.service';
-import { AddUserProyect, Estados, ProyectByUser, ProyectUser, UserLeaderProyect, UserSelect } from '../../models/models';
+import { AddUserProyect, Estados, ProyectByUser, ProyectUser, Task, TaskFilter, UserLeaderProyect, UserSelect } from '../../models/models';
 import { ToastrService } from 'ngx-toastr';
 import { StateService } from '../../services/state.service';
+import { TaskService } from '../../services/task.service';
 
 @Component({
   selector: 'app-proyecto',
@@ -27,26 +28,38 @@ export class ProyectoComponent implements OnInit {
   state: Estados[] = [];
   idNewState: number = 0;
   loader = false
+  tasks: Task[] = [];
+  displayedColumns: string[] = ['nombre', 'descripcion', 'estado'];
+  selectedTabIndex: number = 0;
+  filter: TaskFilter = {
+    searchText: ''
+  };
+  filteredTasks: Task[] = [];
+  filterText: string = '';
 
 
   constructor(private dialog: MatDialog, private httpUserServices: UsuariosService,  private route: ActivatedRoute,
     private httpProyectService: ProyectService, private changeDetectorRef: ChangeDetectorRef, private toastr: ToastrService,
-    private httpStateService: StateService){
+    private httpStateService: StateService, private httpTaskServices: TaskService){
     }
 
   ngOnInit(): void {
+    const storedTabIndex = localStorage.getItem('selectedTabIndex');
+    if (storedTabIndex) {
+      this.selectedTabIndex = +storedTabIndex;
+    }
     this.route.paramMap.subscribe(params => {
       this.idproyect = Number(params.get('id'));
-      
+
       if(this.idproyect){
         this.httpProyectService.GetProyectById(this.idproyect).subscribe({
           next:(res: any) => {
             for (let index = 0; index < res.data.length; index++) {
               this.proyecto = res.data[index];
-            } 
+            }
           },
         });
-
+        
         this.httpProyectService.getUserByProyect(this.idproyect).subscribe({
           next:(res: any) => {
             this.userProyect = res.data
@@ -54,6 +67,7 @@ export class ProyectoComponent implements OnInit {
         });
 
         this.getLeader(this.idproyect);
+        this.GetTaskByProyect(this.idproyect);
       }
     });
 
@@ -69,8 +83,38 @@ export class ProyectoComponent implements OnInit {
     })
   }
 
-  guardarUsuarios(){
+  onTabChange(event: any): void {
+    this.selectedTabIndex = event.index;
+    // Almacenar el índice del tab seleccionado en localStorage
+    localStorage.setItem('selectedTabIndex', this.selectedTabIndex.toString());
+  }
 
+  searchTask(value: string) {
+    value = value.toLowerCase();
+
+    if(value.length > 0){
+      this.tasks = this.tasks.filter((subTasks) => {
+        subTasks.subTareas = subTasks.subTareas.filter(
+          (task) => {
+            task.nombre.toLowerCase().includes(value) || task.descripcion.toLowerCase().includes(value)
+          }
+        );
+        return subTasks.subTareas.length > 0
+      });
+    }
+  }
+
+  // updateListTask(){
+  //   this.tasks = []
+
+  //   let exist = false;
+
+  //   for(let subtasks of t)
+
+  // }
+  
+
+  guardarUsuarios(){
     if(this.userSelected.length > 0){
       let ids:number[] = [];
       this.userSelected.forEach((element:UserSelect) => {
@@ -111,8 +155,6 @@ export class ProyectoComponent implements OnInit {
         } else{
           this.showAlert(false, "Error, no se pudo actualizar el proyecto")
         }
-        console.log(res);
-        
       },
       error:(err: any) => {
         this.showAlert(false, "Ocurrio un error al actualizar el proyecto")
@@ -123,11 +165,55 @@ export class ProyectoComponent implements OnInit {
   onSelectEstado(event: Event) {
     const target = event.target as HTMLSelectElement;
     const idEstado = target.value;
-    
+
     if (idEstado !== null) {
       this.idNewState = +idEstado;
     }
   }
+
+  GetTaskByProyect(IdProyect: number){
+    this.httpTaskServices.getTaskByProyect(IdProyect).subscribe({
+      next:(res:any) => {
+        this.tasks = res.data;
+      },
+    });
+  }
+
+  // groupTasks(data: Task[]): Task[]{
+  //   const taskMap = new Map<number, Task>();
+
+  //   data.forEach((item) => {
+  //     const task: Task = {
+  //       IdTarea: item.IdTarea,
+  //       Nombre: item.Nombre,
+  //       Descripcion: item.Descripcion,
+  //       FechaInicio: item.FechaInicio,
+  //       FechaFin: item.FechaFin,
+  //       IdTareaPadre: item.IdTareaPadre,
+  //       Estado: item.Estado,
+  //       Responsable: item.Responsable,
+  //       UrlArchivo: item.UrlArchivo,
+  //       Prioridad: item.Prioridad,
+  //       Subtareas: []
+  //     }
+
+  //     taskMap.set(task.IdTarea, task);
+  //   });
+
+  //   data.forEach((item) => {
+  //     const task = taskMap.get(item.IdTarea);
+
+  //     if (item.IdTareaPadre !== null && task) {
+  //       const parentTask = item.IdTareaPadre !== undefined ? taskMap.get(item.IdTareaPadre) : undefined;
+  //       if (parentTask) {
+  //         parentTask.Subtareas!.push(task); // Agregar la tarea como subtarea del padre
+  //       }
+  //     }
+  //   });
+
+  //   const rootTasks = Array.from(taskMap.values()).filter((task) => !task.IdTareaPadre);
+  //   return rootTasks;
+  // }
 
   deleteUserToProyect(IdUsuario: number){
     this.httpProyectService.deleteUserToProyect(this.idproyect, IdUsuario).subscribe({

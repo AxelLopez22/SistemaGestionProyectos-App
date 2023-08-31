@@ -39,6 +39,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import {MatNativeDateModule} from '@angular/material/core';
 
+
 @NgModule({
   declarations: [],
   imports: [
@@ -83,6 +84,7 @@ import {MatNativeDateModule} from '@angular/material/core';
     MatTooltipModule,
     MatTreeModule,
     MatNativeDateModule,
+    MatExpansionModule
   ]
 })
 export class MaterialModule { }

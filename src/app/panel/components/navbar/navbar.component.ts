@@ -15,17 +15,20 @@ export class NavbarComponent implements OnInit {
   @Output() menuClicked = new EventEmitter<boolean>();
   username: string = "";
   foto: string = "";
+  roles: string[] = [];
   constructor(private spinner:NgxSpinnerService, private httpService: LoginServicesService, private router:Router,
     private dialog: MatDialog){}
 
   ngOnInit(): void {
     this.username = this.httpService.GetUserLogin();
     this.foto = this.httpService.getImageLogin();
+    this.roles = this.httpService.getRoles();
   }
 
   logout(){
     this.spinner.show();
     localStorage.removeItem('token');
+    localStorage.removeItem('selectedTabIndex');
     setTimeout(() => {
       this.spinner.hide();
       this.httpService.logout();
@@ -37,6 +40,10 @@ export class NavbarComponent implements OnInit {
     //console.log(event.target);
   }
 
+  shouldShowButton(): boolean {
+    return this.roles.includes('Administrador') //|| this.roles.includes('Lider de Proyecto');
+  }
+
   openModal() {
     const dialogRef: MatDialogRef<any> = this.dialog.open(CreateProyectComponent, {
       width: '750px',
@@ -45,7 +52,7 @@ export class NavbarComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('Modal cerrado', result);
+      //console.log('Modal cerrado', result);
 
     });
   }

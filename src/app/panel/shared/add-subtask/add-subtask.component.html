@@ -1,0 +1,108 @@
+
+<div class="mt-3" style="display: flex; align-items: center; justify-content: center; color: white;">
+    <h2>Crear SubTareas</h2>
+</div>
+
+<mat-divider></mat-divider>
+
+<form [formGroup]="tareaForm">
+    <mat-grid-list [cols]="breakpoint" (window:resize)="onResize($event)" rowHeight="70px" gutterSize="10px" style="margin: 10px;">
+        <mat-grid-tile [colspan]="3" [rowspan]="1">
+          <mat-form-field appearance="fill" color="primary" style="width: 100%;">
+            <mat-label>Nombre</mat-label>
+            <input type="text" matInput formControlName="nombre">
+            <!-- <mat-hint style="color: red;font-size: 13px"
+              *ngIf="clientesForm.get('nombres')?.touched && clientesForm.get('nombres')?.errors?.['required']">
+              Nombres requeridos
+            </mat-hint> -->
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="3" [rowspan]="3">
+          <mat-form-field appearance="fill" color="primary" style="width: 100%;  height: 100%;">
+            <mat-label>Descripcion</mat-label>
+            <textarea style="height: 100%;" matInput placeholder="Dirreccion..." formControlName="descripcion"></textarea>
+            <!-- <mat-hint style="color: red;font-size: 13px"
+            *ngIf="clientesForm.get('apellidos')?.touched && clientesForm.get('apellidos')?.errors?.['required']">
+              Apellidos requeridos
+            </mat-hint> -->
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="3" [rowspan]="1">
+          <mat-form-field appearance="fill" color="primary" style="width: 100%;">
+            <mat-label>Fecha de entrega</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="fechaFin">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="3" [rowspan]="1">
+          <mat-form-field appearance="fill" color="primary" style="width: 100%;">
+            <mat-label>Encargado</mat-label>
+            <mat-select name="food" formControlName="idUsuario">
+                <mat-option *ngFor="let item of listUser" [value]="item">
+                  <ng-container *ngIf="item.foto; else noPhoto" style="margin: 0.5rem;">
+                    <img src="{{ item.foto }}" alt="Foto" width="50" height="50" class="rounded-circle" style="padding: 8px;">
+                  </ng-container>
+                  <span style="margin-left: 10px;">{{ item.nombresCompleto }}</span>
+                  <ng-template #noPhoto>
+                    <span style="margin-left: 10px;">{{ item.nombresCompleto }}</span>
+                  </ng-template>
+                </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="3" [rowspan]="1">
+            <label class="custom-file-input" (dragover)="onDragOver($event)" (drop)="onDrop($event)" (click)="inputFile.click()">
+                <span style="text-align: center; margin: 10px 0 0 10px;">
+                    {{ archivoSeleccionado ? archivoSeleccionado.name : 'Arrastra y suelta aqui el archivo' }}
+                </span>
+                <input type="file" #foto id="Imagen" name="Imagen" accept="image/png, image/jpeg" formControlName="idArchivo" (change)="onFileSelected($event)" style="display: none;" #inputFile>
+            </label>
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="3" [rowspan]="1">
+          <mat-form-field appearance="fill" color="primary" style="width: 100%;">
+            <mat-label>Prioridad</mat-label>
+            <mat-select formControlName="idPrioridad">
+                <mat-option *ngFor="let element of prioridades" [value]="element">
+                  {{element.nombre}}
+                </mat-option>
+              </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+      </mat-grid-list>
+</form>
+
+<div style="display: flex; justify-content: center; align-items: center;">
+    <button mat-raised-button style="margin-right: 5px;" color="accent" [disabled]="tareaForm.invalid" (click)="AddSubTask()">Agregar</button>
+    <button mat-raised-button style="margin-left: 5px;" color="accent" [disabled]="subTask.length <= 0" [mat-dialog-close]="subTask">Listo</button>
+</div>
+
+<mat-divider class="mt-3"></mat-divider>
+
+<div class="table-responsive">
+    <table class="table mx-auto table-bordered table-hover custom-table">
+        <thead>
+            <tr>
+                <th>Descripcion</th>
+                <th>Fecha Entrega</th>
+                <th>Prioridad</th>
+                <th>Encargado</th>
+            </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of subTask">
+            <td>{{item.descripcion}}</td>
+            <td>{{item.fechaFin | date}}</td>
+            <td>{{item.idPrioridad.nombre}}</td>
+            <td>{{item.idUsuario.nombresCompleto}}</td>
+          </tr>
+        </tbody>
+    </table>
+</div>

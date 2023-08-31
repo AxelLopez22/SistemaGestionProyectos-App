@@ -4,16 +4,13 @@
       <mat-icon>menu</mat-icon>
     </button>
 
-    <button mat-mini-fab matTooltip="Crear Proyecto" (click)="openModal()">
+    <button mat-mini-fab matTooltip="Crear Proyecto" (click)="openModal()" *ngIf="shouldShowButton()">
       <mat-icon>add</mat-icon>
     </button>
   </div>
 
 
-  <div class="input-group custom-input-group">
-    <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-search"></i></span>
-    <input type="text" class="form-control" placeholder="Buscar" >
-  </div>
+  
 
   <div class="user-info">
     <span style="margin-right: 5px;">{{username}}</span>

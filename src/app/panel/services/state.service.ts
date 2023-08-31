@@ -18,4 +18,12 @@ export class StateService {
   getStateByProyect(IdProyecto: number){
     return this.http.get(this.UrlBase + `Estado/getStateByProyect/${IdProyecto}`);
   }
+
+  getPrioridades(){
+    return this.http.get(this.UrlBase + 'Prioridades/listarPrioridades');
+  }
+
+  getStateByTask(IdTask: number){
+    return this.http.get(this.UrlBase + `Estado/getStateByTask/${IdTask}`);
+  }
 }

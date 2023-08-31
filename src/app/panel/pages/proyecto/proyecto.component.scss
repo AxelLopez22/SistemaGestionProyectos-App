@@ -37,20 +37,54 @@
 .card-user{
   display: flex;
   flex-direction: row;
-  border: 1px solid whitesmoke;
+  //border: 1px solid whitesmoke;
   border-radius: 20px;
   height: 300px;
 }
 
 .list-user-proyect{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin: 5px 10px 5px 10px;
+  border: 1px solid white; 
+  height: min-content; 
+  padding: 5px; 
+  border-radius: 20px;
+}
+
+.input-group{
+  width: 360px;
+  height: 20px;
+}
+// .example-headers-align{
+//   margin-top: 1rem !important;
+// }
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media screen and (max-width: 800px) {
+  mat-panel-description{
+    display: none;
+  }
+
+  .input-group{
+    display: none;
+  }
+
+  .state{
+    display: none;
+  }
 }
 
 @media screen and (max-width: 600px) {
   .card-user{
     display: flex;
     flex-direction: column;
-    border: 1px solid whitesmoke;
+    //border: 1px solid whitesmoke;
     border-radius: 20px;
     height: 300px;
   }

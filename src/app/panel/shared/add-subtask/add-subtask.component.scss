@@ -1,0 +1,52 @@
+:host{
+    color: whitesmoke;
+    //padding: 1rem 0 1rem 0;
+}
+
+/* Estilos personalizados para el campo de entrada de archivo */
+.custom-file-input {
+    position: relative;
+    width: 100%;
+    height: 75%;
+    margin-top: 0;
+    margin-bottom: 15px;
+    line-height: 36px;
+    //padding: 4px 8px;
+    background-color: #fff;
+    border: 1px dashed #ccc;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    display: inline-block;
+  }
+  
+  .custom-file-input input[type="file"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  /* Cambia el color del campo de entrada de archivo */
+  .custom-file-input {
+    background-color: #474747;
+    border-color: whitesmoke; /* Puedes cambiar esto a otro color de tu elección */
+  }
+  
+  /* Cambia el color al pasar el mouse sobre el campo de entrada de archivo */
+  .custom-file-input:hover {
+    background-color: #575757;
+  }
+
+
+
+.custom-table {
+    --bs-table-bg: #575757 !important ;
+    --bs-table-color: white !important;
+    --bs-table-border-color: white !important;
+    background-color: #575757 !important; /* Color dark-pink de Angular Material */
+    color: white !important; /* Color del texto */
+  }

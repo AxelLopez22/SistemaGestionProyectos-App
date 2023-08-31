@@ -24,6 +24,13 @@ export class LoginServicesService {
     return user;
   }
 
+  getRoles(){
+    let token = this.jwt.decodeToken();
+    let roles = token.Rol;
+
+    return roles;
+  }
+
   GetNameUser(){
     let token = this.jwt.decodeToken();
     let user = token.Nombre + ' ' + token.Apellidos;

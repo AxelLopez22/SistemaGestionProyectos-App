@@ -2,7 +2,7 @@
   <div class="options">
     <div class="proyect-info">
       <h1>{{proyecto.nombre}}</h1>
-      <span>{{proyecto.estado}}</span>
+      <span class="state">{{proyecto.estado}}</span>
     </div>
     
     <div class="name-leader">
@@ -23,8 +23,9 @@
     <!-- <span class="name-leader"><strong>Lider:</strong> {{leaderProyect.nombresCompleto}}</span> -->
   </div>
   <mat-divider></mat-divider>
-  <mat-tab-group>
-    <mat-tab label="Resumen">
+  <mat-tab-group [(selectedIndex)]="selectedTabIndex" (selectedTabChange)="onTabChange($event)">
+    <!--Seccion de resumen -->
+    <mat-tab label="Resumen" id="resumen">
       <mat-spinner style="display: flex; margin: 10rem auto;" *ngIf="loader; else resume"></mat-spinner>
 
       <ng-template #resume>
@@ -39,9 +40,8 @@
           <h2>Agregar usuarios</h2>
           <button color="primary" mat-raised-button (click)="openModal()">Agregar Integrantes</button>
   
-          <div class="card-user mt-4" style="padding: 20px;">
-            <div class="list-user-proyect" *ngFor="let element of userProyect" 
-              style="border: 1px solid white; height: min-content; padding: 5px; border-radius: 20px;">
+          <div class="card-user mt-4">
+            <div class="list-user-proyect" *ngFor="let element of userProyect">
               <ng-container *ngIf="element.foto; else noPhoto">
                 <img src="{{ element.foto }}" alt="Foto" width="50" height="50" class="rounded-circle">
               </ng-container>
@@ -66,13 +66,52 @@
       </ng-template>
       
     </mat-tab>
-    <mat-tab label="Lista"> Content 2 </mat-tab>
-    <mat-tab label="Tablero"> Content 3 </mat-tab>
-    <mat-tab label="Cronograma"> Estamos trabajando </mat-tab>
-    <mat-tab label="Calendario"> Estamos trabajando </mat-tab>
-    <mat-tab label="Flujo de trabajo"> Estamos trabajando </mat-tab>
-    <mat-tab label="Panel"> Estamos trabajando </mat-tab>
-    <mat-tab label="Mensajes"> Estamos trabajando </mat-tab>
-    <mat-tab label="Archivos"> Estamos trabajando </mat-tab>
+    <mat-tab label="Lista" id="lista">
+      <div style="display: flex; flex-direction: row; justify-content: space-between; overflow: hidden; padding: 0.5rem;">
+        <h3 class="mt-1">Lista de tareas</h3>
+        <div class="input-group custom-input-group">
+          <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-search"></i></span>
+          <input type="text" class="form-control" placeholder="Buscar" (input)="searchTask(search.value)" #search>
+        </div>
+        <button color="primary" mat-mini-fab matTooltip="Agregar una Tarea" routerLink="agregarTarea"><mat-icon>add</mat-icon></button>
+      </div>
+      
+      <mat-spinner style="display: flex; margin: 10rem auto;" *ngIf="loader; else lista"></mat-spinner>
+
+      
+
+      <ng-template #lista>
+        <mat-accordion class="example-headers-align" multi>
+          <mat-expansion-panel *ngFor="let task of tasks">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <a [routerLink]="['editarTarea', task.idTarea]" matTooltip="Editar Tarea" style="margin-right: 10px; cursor: pointer; color: white; cursor: pointer;"><i class="fa-solid fa-pen-to-square"></i></a>
+                {{task.nombre}}
+              </mat-panel-title>
+              <mat-panel-description>
+                {{task.estado}}
+
+                <div style="display: flex; flex-direction: row; align-items: center;">
+                  {{task.responsable}}
+                  <mat-icon style="margin-left: 10px;">account_circle</mat-icon>
+                </div> 
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+        
+            <app-subtasks [subTask]="task.subTareas"></app-subtasks>
+        
+          </mat-expansion-panel>
+         
+        </mat-accordion>
+      </ng-template>
+    
+    </mat-tab>
+    <mat-tab label="Tablero" id="tablero"> Content 3 </mat-tab>
+    <mat-tab label="Cronograma" id="cronograma"> Estamos trabajando </mat-tab>
+    <mat-tab label="Calendario" id="calendario"> Estamos trabajando </mat-tab>
+    <mat-tab label="Flujo de trabajo" id="flujoTrabajo"> Estamos trabajando </mat-tab>
+    <mat-tab label="Panel" id="panel"> Estamos trabajando </mat-tab>
+    <mat-tab label="Mensajes" id="mensajes"> Estamos trabajando </mat-tab>
+    <mat-tab label="Archivos" id="archivos"> Estamos trabajando </mat-tab>
   </mat-tab-group>
 </div>
