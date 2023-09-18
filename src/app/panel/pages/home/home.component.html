@@ -52,7 +52,7 @@
                     <td mat-cell *matCellDef="let element"> {{element.prioridad}} </td>
                   </ng-container>
       
-                  <tr mat-header-row *matHeaderRowDef="displayedColumnsTask"></tr>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumnsTask; sticky: true"></tr>
                   <tr mat-row *matRowDef="let row; columns: displayedColumnsTask;"></tr>
                 </table>
               </div> 
@@ -76,7 +76,7 @@
                     <td mat-cell *matCellDef="let element"> {{element.prioridad}} </td>
                   </ng-container>
       
-                  <tr mat-header-row *matHeaderRowDef="displayedColumnsTask"></tr>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumnsTask; sticky: true"></tr>
                   <tr mat-row *matRowDef="let row; columns: displayedColumnsTask;"></tr>
                 </table>
               </div> 
@@ -100,7 +100,7 @@
                     <td mat-cell *matCellDef="let element"> {{element.prioridad}} </td>
                   </ng-container>
       
-                  <tr mat-header-row *matHeaderRowDef="displayedColumnsTask"></tr>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumnsTask; sticky: true"></tr>
                   <tr mat-row *matRowDef="let row; columns: displayedColumnsTask;"></tr>
                 </table>
               </div> 

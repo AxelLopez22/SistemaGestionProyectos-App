@@ -162,6 +162,7 @@ export class AddTaskComponent implements OnInit {
           this.showAlert(true, "Tarea creada con exito");
           this.progressBar = false;
           this.tareaForm.reset();
+          this.subTask.splice(0, this.subTask.length);
         }
       },error:(err: any) => {
         this.showAlert(false, "Ocurrió un error, intentelo mas tarde");

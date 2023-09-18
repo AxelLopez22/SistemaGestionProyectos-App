@@ -36,6 +36,11 @@ export class HomeComponent implements OnInit {
       .withUrl(`${this.baseUrl}/hub/group`)
       .build();
 
+    this.connection.on("ConextionId", (idConection) => {
+      let Conextion = idConection;
+      //localStorage.setItem("IdConection", Conextion);
+    })
+
     let fecha = new Date();
     this.fechaActual = fecha;
     this.nombreUsuario = this.httpServiceUser.GetNameUser();
@@ -77,10 +82,8 @@ export class HomeComponent implements OnInit {
   obtenerIdsProyect(proyectos: ProyectByUser[]){
     proyectos.forEach((element:ProyectByUser) => {
       this.ids.push(element.idProyecto.toString());
-      this.connection.invoke('AgregarAlGrupo', element.idProyecto.toString());
+      this.connection.invoke('AgregarAlGrupo', element.idProyecto.toString(), this.idUsuario);
     });
-
-    
   }
 
   TareasProximas(){

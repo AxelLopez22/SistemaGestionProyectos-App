@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  //baseUrl: 'https://localhost:7003/api/'
+  //baseUrl: 'http://www.gestion-proyectos.somee.com/api/',
   baseUrl: 'https://localhost:7015/api/',
+  //baseUrlHub: 'http://www.gestion-proyectos.somee.com'
   baseUrlHub: 'https://localhost:7015'
 };
 

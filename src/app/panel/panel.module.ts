@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { PanelRoutingModule } from './panel-routing.module';
 import { PanelComponent } from './panel.component';
@@ -54,7 +54,8 @@ import { CommentComponent } from './shared/comment/comment.component';
   ],
   schemas:[CUSTOM_ELEMENTS_SCHEMA],
   providers:[
-    ToastrService
+    ToastrService,
+    DatePipe
   ]
 })
 export class PanelModule { }

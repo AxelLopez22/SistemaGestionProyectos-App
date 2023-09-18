@@ -18,6 +18,7 @@ import { AddSubtaskComponent } from '../../shared/add-subtask/add-subtask.compon
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-edit-tasks',
@@ -49,14 +50,16 @@ export class EditTasksComponent implements OnInit {
   private connection!: HubConnection;
 
   constructor(private route: ActivatedRoute, private httpTaskService: TaskService, private httpStateService: StateService,
-    private httpUserService: LoginServicesService,  private dialog: MatDialog, private toastr: ToastrService){
+    private httpUserService: LoginServicesService,  private dialog: MatDialog, private toastr: ToastrService, private datePipe: DatePipe){
       this.connection = new HubConnectionBuilder()
       .withUrl(`${this.baseUrl}/hub/comment`)
       .build();
       
       this.connection.on('NotifyComment', comentario => {
-        this.listaComentarios.push(comentario);
-        console.log(comentario);
+        if(comentario.idTarea){
+          this.listaComentarios.push(comentario);
+          console.log(comentario);
+        }    
       });
     }
 
@@ -95,7 +98,24 @@ export class EditTasksComponent implements OnInit {
     return numSelected === numRows;
   }
 
-  
+  // formatDate(commentDate: Date): string {
+  //   const now = new Date();
+  //   const diff = now.getTime() - commentDate.getTime();
+
+  //   const minutes = Math.floor(diff / 60000); // Milisegundos a minutos
+  //   const hours = Math.floor(minutes / 60); // Minutos a horas
+  //   const days = Math.floor(hours / 24); // Horas a días
+
+  //   if (minutes < 1) {
+  //     return 'Hace un momento';
+  //   } else if (minutes < 60) {
+  //     return `Hace ${minutes} minutos`;
+  //   } else if (hours < 24) {
+  //     return `Hace ${hours} horas`;
+  //   } else {
+  //     return this.datePipe.transform(commentDate, 'medium') || '';
+  //   }
+  // }
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files;
@@ -178,6 +198,8 @@ export class EditTasksComponent implements OnInit {
         idUsuario: Number(this.httpUserService.getUserId()),
         idArchivo: idArchivo
       } 
+
+      
 
       this.enviarComentario(comentario);
       this.comment = '';

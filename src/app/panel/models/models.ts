@@ -103,7 +103,9 @@ export interface ListarComentarios{
   idComentario: number,
   descripcion: string,
   usuario: string,
-  foto: string
+  foto: string,
+  fecha: Date,
+  idTarea: number
 }
 
 export interface TareasEstados{

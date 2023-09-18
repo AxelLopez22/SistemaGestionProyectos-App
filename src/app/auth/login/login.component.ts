@@ -57,6 +57,9 @@ export class LoginComponent implements OnInit {
             this.spinner.hide();
             this.route.navigate(['panel/home']);
           }, 1500);
+        } else if(res.success === false) {
+          this.spinner.hide();
+          this.showAlert(false, res.message)
         }
       },
       error:(err) => {

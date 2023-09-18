@@ -21,7 +21,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     ReactiveFormsModule,
     HttpClientModule,
     NgxSpinnerModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-center'
+    }),
   ],
   schemas:[CUSTOM_ELEMENTS_SCHEMA],
   providers:[

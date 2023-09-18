@@ -3,8 +3,9 @@
     <img [src]="comment.foto" alt="User Photo" class="photo">
   </div>
   <div class="comment-details">
-    <div class="comment-user">
-      <span>{{ comment.usuario }}</span>
+    <div style="display: flex; justify-content: space-between;">
+      <span class="comment-user">{{ comment.usuario }}</span>
+      <p style="font-size: 12px;">{{ formatDate(comment.fecha) }}</p>
     </div>
     <p>{{ comment.descripcion }}</p>
   </div>

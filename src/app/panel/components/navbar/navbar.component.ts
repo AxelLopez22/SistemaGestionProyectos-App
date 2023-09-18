@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { LoginServicesService } from 'src/app/auth/services/login-services.service';
 import { CreateProyectComponent } from '../../shared/create-proyect/create-proyect.component';
+import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { environment } from 'src/environments/environment';
+
 
 @Component({
   selector: 'app-navbar',
@@ -16,10 +19,17 @@ export class NavbarComponent implements OnInit {
   username: string = "";
   foto: string = "";
   roles: string[] = [];
+  readonly baseUrl = environment.baseUrlHub;
+  private connection!: HubConnection;
+  
   constructor(private spinner:NgxSpinnerService, private httpService: LoginServicesService, private router:Router,
     private dialog: MatDialog){}
 
   ngOnInit(): void {
+    this.connection = new HubConnectionBuilder()
+      .withUrl(`${this.baseUrl}/hub/group`)
+      .build();
+
     this.username = this.httpService.GetUserLogin();
     this.foto = this.httpService.getImageLogin();
     this.roles = this.httpService.getRoles();
