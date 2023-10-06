@@ -11,18 +11,22 @@ span {
 }
 
 mat-list-item:hover{
-  background-color: #323232;
+  background-color: #99A3A4;
   border-radius: 20px;
+  //color: white;
 }
 
 mat-list-item:hover span{
   //padding-left: 10px;
   transition: 0.5s;
+  margin-left: 10px;
+  //color: white;
 }
 
 .active{
-  background-color: #303030;
+  background-color: #99A3A4;
   border-radius: 20px;
+  color: white;
   //margin: 0 10px 0 10px;
 }
 

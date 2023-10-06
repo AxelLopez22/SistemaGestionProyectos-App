@@ -24,8 +24,11 @@ export class HomeComponent implements OnInit {
   tareasProximas: TareasEstados[] = []
   tareasRetrasadas: TareasEstados[] = []
   tareasFinalizadas: TareasEstados[] = []
+  cantTareasProximas!: number;
+  cantTareasRetrasadas!: number;
+  //cantTareasFinalizadas!: number;
   ids: string[] = [];
-  cantTareasFin!: number
+  cantTareasFin!: number | undefined
   readonly baseUrl = environment.baseUrlHub;
   private connection!: HubConnection;
 
@@ -91,6 +94,7 @@ export class HomeComponent implements OnInit {
       next:(res: any) => {
         if(res.success == true){
           this.tareasProximas = res.data;
+          this.cantTareasProximas = this.tareasProximas.length;
         } else {
           this.tareasProximas = []
         }
@@ -103,6 +107,7 @@ export class HomeComponent implements OnInit {
       next: (res: any) => {
         if(res.success == true){
           this.tareasRetrasadas = res.data
+          this.cantTareasRetrasadas = this.tareasRetrasadas.length;
         } else {
           this.tareasRetrasadas = []
         }
@@ -116,8 +121,11 @@ export class HomeComponent implements OnInit {
         if(res.success == true){
           this.tareasFinalizadas = res.data
           this.cantTareasFin = this.tareasFinalizadas.length
+
+          
         } else {
           this.tareasFinalizadas = []
+          this.cantTareasFin = 0
         }
       },
     });

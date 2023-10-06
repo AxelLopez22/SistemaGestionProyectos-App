@@ -33,7 +33,7 @@
         <mat-divider class="mt-3"></mat-divider>
         <mat-card-content class="mt-2">
           <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
-            <mat-tab label="Proximas">
+            <mat-tab [label]="'Proximas (' + cantTareasProximas +')'">
               <div style="height: 40vh;">
                 <table mat-table [dataSource]="tareasProximas">
 
@@ -57,7 +57,7 @@
                 </table>
               </div> 
             </mat-tab>
-            <mat-tab label="Con retraso">
+            <mat-tab [label]="'Con Retraso ('+ cantTareasRetrasadas +')'">
               <div style="height: 40vh;">
                 <table mat-table [dataSource]="tareasRetrasadas">
 
@@ -81,7 +81,7 @@
                 </table>
               </div> 
             </mat-tab>
-            <mat-tab label="Finalizadas">
+            <mat-tab [label]="'Finalizadas ('+ cantTareasFin +')'">
               <div style="height: 40vh;">
                 <table mat-table [dataSource]="tareasFinalizadas">
 

@@ -32,7 +32,7 @@
           }
 
           .comment{
-            background-color: #545454;
+            //background-color: #545454;
             height: calc(100vh - 340px);
             overflow-y: auto;
             width: 100%;
@@ -43,7 +43,7 @@
           //border: 1px solid #ccc;
           padding-top: 10px;
           margin-bottom: 20px;
-          background-color: #303030;
+          //background-color: #303030;
 
           textarea {
             width: 100%;
@@ -53,8 +53,8 @@
             border-radius: 4px;
             resize: vertical;
             resize: none;
-            background-color: #545454; /* Cambia el color de fondo según tu tema */
-            color: white;
+            //background-color: #545454; /* Cambia el color de fondo según tu tema */
+            //color: white;
           }
 
           .input-container {
@@ -70,8 +70,8 @@
           input[type="file"] {
             margin-top: 10px;
             width: 400px;
-            background-color: #545454;
-            color: white;
+            //background-color: #545454;
+            //color: white;
           }
 
           button {

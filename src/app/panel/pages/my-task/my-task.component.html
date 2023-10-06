@@ -1,1 +1,88 @@
-<p>my-task works!</p>
+<div class="header-section">
+    <h1>Mis Tareas</h1>
+</div>
+<mat-divider></mat-divider>
+<div class="first-section">
+    <div class="section-task">
+        <div class="tabla">
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  
+              <!-- Checkbox Column -->
+              <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>
+                  Seleccionar
+                </th>
+                <td mat-cell *matCellDef="let row" style="min-width: 40px; max-width: 50px !important;">
+                  <mat-checkbox 
+                                (change)="$event ? selection.toggle(row) : null"
+                                [checked]="selection.isSelected(row)"
+                                [aria-label]="checkboxLabel(row)"
+                                >
+                  </mat-checkbox>
+                </td>
+              </ng-container>
+            
+              <!-- Position Column -->
+              <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef> Descripcion </th>
+                <td mat-cell *matCellDef="let element" style="min-width: 290px; max-width: 300px; width: auto !important;"> {{element.nombre}} </td>
+              </ng-container>
+            
+              <!-- Name Column -->
+              <ng-container matColumnDef="fechaEntrega">
+                <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                <td mat-cell *matCellDef="let element"> {{element.fechaFin | date}} </td>
+              </ng-container>
+            
+              <!-- Weight Column -->
+              <ng-container matColumnDef="estado">
+                <th mat-header-cell *matHeaderCellDef> Estado </th>
+                <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="prioridad">
+                <th mat-header-cell *matHeaderCellDef> Prioridad </th>
+                <td mat-cell *matCellDef="let element"> {{element.prioridad}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="fechafin">
+                <th mat-header-cell *matHeaderCellDef> Fecha Entrega </th>
+                <td mat-cell *matCellDef="let element" style="min-width: 180px; max-width: 190px !important;"> {{element.fechaFin | date}} </td>
+              </ng-container>
+            
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                (click)="toggleAllRows(row)">
+              </tr>
+            </table>
+          </div>
+    </div>
+
+
+    <div class="section-description" *ngIf="idTaskSelect">
+        <div class="section-state-task">
+            <select class="form-select form-select-sm" style="width: 40%;"
+              (change)="onSelectEstado($event)">
+              <option value="" disabled selected>-- Cambiar estado --</option>
+              <option *ngFor="let estado of state" [value]="estado.idEstado">{{estado.nombre}}</option>
+            </select>
+            <span *ngIf="selectedTask">Estado: <strong>{{selectedTask.nombre}}</strong></span>
+        </div>
+
+        <div style="margin: 1rem;">
+            <h2>Descripcion:</h2>
+            <span>{{descripcion}}</span>
+        </div>
+
+        <h3 style="margin-left: 1rem;">Comentarios:</h3>
+
+        <div class="comment">
+            <ng-container *ngFor="let comment of listaComentarios; let i = index; let last = last">
+              <div style="margin-left: 1rem; margin-top: 0.6rem; margin-right: 0.8rem;">
+                <app-comment [comments]="[comment]"></app-comment>
+              </div>
+              <mat-divider *ngIf="!last && i !== listaComentarios.length - 1" class="divider"></mat-divider>
+            </ng-container>
+        </div>
+    </div>
+</div>

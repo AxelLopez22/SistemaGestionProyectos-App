@@ -6,7 +6,7 @@
     </div>
     
     <div class="name-leader">
-      <select class="form-select form-select-sm" style="background-color: #545454; color: white;"
+      <select class="form-select form-select-sm"
       (change)="onSelectEstado($event)">
         <option value="" disabled selected>-- Cambiar estado --</option>
         <option *ngFor="let estado of state" [value]="estado.idEstado">{{estado.nombre}}</option>
@@ -85,7 +85,7 @@
           <mat-expansion-panel *ngFor="let task of tasks">
             <mat-expansion-panel-header>
               <mat-panel-title>
-                <a [routerLink]="['editarTarea', task.idTarea]" matTooltip="Editar Tarea" style="margin-right: 10px; cursor: pointer; color: white; cursor: pointer;"><i class="fa-solid fa-pen-to-square"></i></a>
+                <a [routerLink]="['editarTarea', task.idTarea]" matTooltip="Ver Tarea" style="margin-right: 10px; cursor: pointer; color: black; cursor: pointer;"><i class="fa-solid fa-pen-to-square"></i></a>
                 {{task.nombre}}
               </mat-panel-title>
               <mat-panel-description>
@@ -106,7 +106,178 @@
       </ng-template>
     
     </mat-tab>
-    <mat-tab label="Tablero" id="tablero"> Content 3 </mat-tab>
+    <mat-tab label="Tablero" id="tablero">
+      <div style="text-align: center; margin-top: 1rem; height: calc(100vh - 210px); overflow-y: auto;">
+        <div class="example-container">
+          <h2>Sin Comenzar</h2>
+        
+          <div
+            cdkDropList
+            #todoList="cdkDropList"
+            [cdkDropListData]="SinComenzar"
+            
+            class="example-list size-box"
+            (cdkDropListDropped)="drop($event)">
+            <div class="example-box" style="display: flex;" *ngFor="let item of SinComenzar" cdkDrag>
+              <div style="width: 10%;">
+                <img src="{{item.foto}}" width="40" height="40" class="rounded-circle">
+              </div>
+              
+              <div style="display: flex; flex-direction: column; text-align: left; width: 60%; padding-left: 15px;">
+                <span><strong>{{item.encargado}}</strong></span>
+                <p>{{item.tarea}}</p>
+              </div>
+              <div style="display: flex; flex-direction: column; width: 30%; text-align: right;">
+                <span>{{item.prioridad}}</span>
+                <div>{{item.fechaEntrega | date}}</div>
+              </div>  
+             
+            </div>
+          </div>
+        </div>
+        
+        <div class="example-container">
+          <h2>En curso</h2>
+        
+          <div
+            cdkDropList
+            #todoList="cdkDropList"
+            [cdkDropListData]="EnCurso"
+            
+            class="example-list size-box"
+            (cdkDropListDropped)="drop($event)">
+            
+            <div class="example-box" style="display: flex;" *ngFor="let item of EnCurso" cdkDrag>
+              <div style="width: 10%;">
+                <img src="{{item.foto}}" width="40" height="40" class="rounded-circle">
+              </div>
+              
+              <div style="display: flex; flex-direction: column; text-align: left; width: 60%; padding-left: 15px;">
+                <span><strong>{{item.encargado}}</strong></span>
+                <p>{{item.tarea}}</p>
+              </div>
+              <div style="display: flex; flex-direction: column; width: 30%; text-align: right;">
+                <span>{{item.prioridad}}</span>
+                <div>{{item.fechaEntrega | date}}</div>
+              </div>  
+             
+            </div>
+          </div>
+        </div>
+  
+        <div class="example-container">
+          <h2>Con riesgo</h2>
+        
+          <div
+            cdkDropList
+            #todoList="cdkDropList"
+            [cdkDropListData]="EnRiesgo"
+           
+            class="example-list size-box"
+            (cdkDropListDropped)="drop($event)">
+            <div class="example-box" style="display: flex;" *ngFor="let item of EnRiesgo" cdkDrag>
+              <div style="width: 10%;">
+                <img src="{{item.foto}}" width="40" height="40" class="rounded-circle">
+              </div>
+              
+              <div style="display: flex; flex-direction: column; text-align: left; width: 60%; padding-left: 15px;">
+                <span><strong>{{item.encargado}}</strong></span>
+                <p>{{item.tarea}}</p>
+              </div>
+              <div style="display: flex; flex-direction: column; width: 30%; text-align: right;">
+                <span>{{item.prioridad}}</span>
+                <div>{{item.fechaEntrega | date}}</div>
+              </div>  
+             
+            </div>
+          </div>
+        </div>
+
+        <div class="example-container">
+          <h2>Con retraso</h2>
+        
+          <div
+            cdkDropList
+            #todoList="cdkDropList"
+            [cdkDropListData]="ConRetraso"
+           
+            class="example-list size-box"
+            (cdkDropListDropped)="drop($event)">
+            <div class="example-box" style="display: flex;" *ngFor="let item of ConRetraso" cdkDrag>
+              <div style="width: 10%;">
+                <img src="{{item.foto}}" width="40" height="40" class="rounded-circle">
+              </div>
+              
+              <div style="display: flex; flex-direction: column; text-align: left; width: 60%; padding-left: 15px;">
+                <span><strong>{{item.encargado}}</strong></span>
+                <p>{{item.tarea}}</p>
+              </div>
+              <div style="display: flex; flex-direction: column; width: 30%; text-align: right;">
+                <span>{{item.prioridad}}</span>
+                <div>{{item.fechaEntrega | date}}</div>
+              </div>  
+             
+            </div>
+          </div>
+        </div>
+
+        <div class="example-container">
+          <h2>En espera</h2>
+        
+          <div
+            cdkDropList
+            #todoList="cdkDropList"
+            [cdkDropListData]="EnEspera"
+           
+            class="example-list size-box"
+            (cdkDropListDropped)="drop($event)">
+            <div class="example-box" style="display: flex;" *ngFor="let item of EnEspera" cdkDrag>
+              <div style="width: 10%;">
+                <img src="{{item.foto}}" width="40" height="40" class="rounded-circle">
+              </div>
+              
+              <div style="display: flex; flex-direction: column; text-align: left; width: 60%; padding-left: 15px;">
+                <span><strong>{{item.encargado}}</strong></span>
+                <p>{{item.tarea}}</p>
+              </div>
+              <div style="display: flex; flex-direction: column; width: 30%; text-align: right;">
+                <span>{{item.prioridad}}</span>
+                <div>{{item.fechaEntrega | date}}</div>
+              </div>  
+             
+            </div>
+          </div>
+        </div>
+  
+        <div class="example-container">
+          <h2>Finalizado</h2>
+        
+          <div
+            cdkDropList
+            #todoList="cdkDropList"
+            [cdkDropListData]="Finalizadas"
+           
+            class="example-list size-box"
+            (cdkDropListDropped)="drop($event)">
+            <div class="example-box" style="display: flex;" *ngFor="let item of Finalizadas" cdkDrag>
+              <div style="width: 10%;">
+                <img src="{{item.foto}}" width="40" height="40" class="rounded-circle">
+              </div>
+              
+              <div style="display: flex; flex-direction: column; text-align: left; width: 60%; padding-left: 15px;">
+                <span><strong>{{item.encargado}}</strong></span>
+                <p>{{item.tarea}}</p>
+              </div>
+              <div style="display: flex; flex-direction: column; width: 30%; text-align: right;">
+                <span>{{item.prioridad}}</span>
+                <div>{{item.fechaEntrega | date}}</div>
+              </div>  
+             
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
     <mat-tab label="Cronograma" id="cronograma"> Estamos trabajando </mat-tab>
     <mat-tab label="Calendario" id="calendario"> Estamos trabajando </mat-tab>
     <mat-tab label="Flujo de trabajo" id="flujoTrabajo"> Estamos trabajando </mat-tab>

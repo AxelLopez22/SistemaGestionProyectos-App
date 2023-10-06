@@ -4,10 +4,17 @@ import { UsuariosService } from '../../services/usuarios.service';
 import { AddUsuariosProyectComponent } from '../../shared/add-usuarios-proyect/add-usuarios-proyect.component';
 import { ActivatedRoute } from '@angular/router';
 import { ProyectService } from '../../services/proyect.service';
-import { AddUserProyect, Estados, ProyectByUser, ProyectUser, Task, TaskFilter, UserLeaderProyect, UserSelect } from '../../models/models';
+import { AddUserProyect, Estados, ProyectByUser, ProyectUser, Task, TaskFilter, TaskState, UserLeaderProyect, UserSelect } from '../../models/models';
 import { ToastrService } from 'ngx-toastr';
 import { StateService } from '../../services/state.service';
 import { TaskService } from '../../services/task.service';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+  CdkDrag,
+  CdkDropList,
+} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-proyecto',
@@ -36,6 +43,17 @@ export class ProyectoComponent implements OnInit {
   };
   filteredTasks: Task[] = [];
   filterText: string = '';
+
+  SinComenzar: TaskState[] = []
+  EnCurso: TaskState[] = []
+  EnRiesgo: TaskState[] = []
+  ConRetraso: TaskState[] = []
+  EnEspera: TaskState[] = []
+  Finalizadas: TaskState[] = []
+
+  todo: TaskState[] = [];
+
+  done:TaskState[] = [];
 
 
   constructor(private dialog: MatDialog, private httpUserServices: UsuariosService,  private route: ActivatedRoute,
@@ -68,11 +86,38 @@ export class ProyectoComponent implements OnInit {
 
         this.getLeader(this.idproyect);
         this.GetTaskByProyect(this.idproyect);
+        this.getTastByState(this.idproyect);
       }
     });
 
     this.getStates();
 
+  }
+
+  drop(event: CdkDragDrop<TaskState[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    }
+  }
+
+  getTastByState(idProyecto: number){
+    this.httpTaskServices.mostrarTareasPorEstado(idProyecto).subscribe({
+      next:(res: any) => {
+        this.SinComenzar = res.data.filter((tarea:TaskState)  => tarea.idEstado === 1)
+        this.EnCurso = res.data.filter((tarea:TaskState)  => tarea.idEstado === 2)
+        this.EnRiesgo = res.data.filter((tarea:TaskState)  => tarea.idEstado === 3)
+        this.ConRetraso = res.data.filter((tarea:TaskState)  => tarea.idEstado === 4)
+        this.EnEspera = res.data.filter((tarea:TaskState)  => tarea.idEstado === 5)
+        this.Finalizadas = res.data.filter((tarea:TaskState)  => tarea.idEstado === 6)
+      },
+    });
   }
 
   getStates(){
@@ -92,15 +137,17 @@ export class ProyectoComponent implements OnInit {
   searchTask(value: string) {
     value = value.toLowerCase();
 
-    if(value.length > 0){
-      this.tasks = this.tasks.filter((subTasks) => {
-        subTasks.subTareas = subTasks.subTareas.filter(
-          (task) => {
-            task.nombre.toLowerCase().includes(value) || task.descripcion.toLowerCase().includes(value)
-          }
-        );
-        return subTasks.subTareas.length > 0
+    if (value.length > 0) {
+      this.tasks = this.tasks.filter(task => {
+        task.subTareas = task.subTareas.filter(subTask => {
+          return subTask.nombre.toLowerCase().includes(value) || subTask.descripcion.toLowerCase().includes(value);
+        });
+
+        return task.subTareas.length > 0;
       });
+    } else {
+      // Si el campo de búsqueda está vacío, mostrar todas las tareas originales.
+      this.tasks = this.tasks.slice(); // Crear una copia para evitar modificar originalTasks.
     }
   }
 

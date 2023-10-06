@@ -1,26 +1,28 @@
-@import "../../theme.scss";
+//@import "../../theme.scss";
 
 :host{
   display: flex;
   align-items: center;
   height: 100vh;
-  background-color: #424242;
+  background-color: white;
+  //background-color: #424242;
   //background-color: aqua;
 }
 
 mat-card {
   color: white;
+  background-color: white;
   display: flex;
   text-align: center;
   width: 30%;
-  background-color: #545454;
-  //box-shadow: 5px 5px 20px $dark-primary-100;
+  //background-color: #545454;
+  box-shadow: 5px 5px 20px #535353;
   margin: auto;
   text-align: center;
-  border: 1px solid $dark-primary-100;
+  //border: 1px solid $dark-primary-100;
 
   h2{
-    color: $dark-warn-A200;
+    color: black;
   }
 }
 

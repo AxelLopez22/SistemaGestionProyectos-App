@@ -21,7 +21,7 @@
 }
 
 .section-task{
-  background-color: #545454;
+  //background-color: #545454;
   width: 70%;
   height: 50px;
   border-radius: 30px;
@@ -30,6 +30,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 20px 0 20px;
+  box-shadow: 5px 5px 5px 1px #545454;
 
   .select-task{
     padding: 0 1rem;

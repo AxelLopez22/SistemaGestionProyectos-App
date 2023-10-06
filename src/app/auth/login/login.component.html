@@ -2,23 +2,27 @@
                [fullScreen]="true"><p style="color: white"> Cargando... </p></ngx-spinner>
 
 <mat-card>
+  <mat-card-header>
+  </mat-card-header>
   <mat-card-content>
     <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <!-- <div style="height: 5vh; background-color: #535353;">
+      </div> -->
       <h2>Inicio de Sesión</h2>
       <mat-divider style="margin-bottom: 20px;"></mat-divider>
-      <mat-form-field color="accent">
+      <mat-form-field color="primary">
         <input matInput type="email" placeholder="Correo" formControlName="email" required>
         <mat-error>
           Debes ingresar tu correo electronico
         </mat-error>
       </mat-form-field>
-      <mat-form-field color="accent">
+      <mat-form-field color="primary">
         <input matInput type="password" placeholder="Contraseña" formControlName="password" required>
         <mat-error>
           Debe ingresar su contraseña
         </mat-error>
       </mat-form-field>
-      <button mat-raised-button color="accent" [disabled]="this.loginForm.invalid">Ingresar</button>
+      <button mat-raised-button color="primary" [disabled]="this.loginForm.invalid">Ingresar</button>
     </form>
   </mat-card-content>
 </mat-card>

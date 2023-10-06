@@ -78,6 +78,7 @@ export interface CreateSubTask{
   idProyecto: number,
   idUsuario: any,
   idPrioridad: any,
+  idUsuarioCreador: number,
   idArchivo?: number | null
 }
 
@@ -88,6 +89,7 @@ export interface CreateTask{
   idProyecto: number,
   idUsuario: number,
   idPrioridad: number,
+  idUsuarioCreador: number,
   idArchivo?: number | null,
   subTareas: CreateSubTask[]
 }
@@ -123,4 +125,28 @@ export interface UpdateStateTask{
 
 export interface TaskFilter {
   searchText: string;
+}
+
+export interface TaskHistory{
+  usuario: string,
+  estados: string,
+  fecha: Date
+}
+
+export interface TaskState{
+  idTarea: number,
+  tarea: string,
+  fechaEntrega: Date,
+  prioridad: string,
+  encargado: string,
+  foto: string,
+  idEstado: number
+}
+
+export interface TaskByUser{
+  idTarea: number,
+  nombre: string,
+  estado: string,
+  prioridad: string,
+  fechaFin: Date
 }

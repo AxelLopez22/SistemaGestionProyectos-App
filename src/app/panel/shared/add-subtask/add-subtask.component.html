@@ -32,7 +32,7 @@
         <mat-grid-tile [colspan]="3" [rowspan]="1">
           <mat-form-field appearance="fill" color="primary" style="width: 100%;">
             <mat-label>Fecha de entrega</mat-label>
-            <input matInput [matDatepicker]="picker" formControlName="fechaFin">
+            <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" formControlName="fechaFin">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
@@ -58,7 +58,7 @@
 
         <mat-grid-tile [colspan]="3" [rowspan]="1">
             <label class="custom-file-input" (dragover)="onDragOver($event)" (drop)="onDrop($event)" (click)="inputFile.click()">
-                <span style="text-align: center; margin: 10px 0 0 10px;">
+                <span style="text-align: center; margin: 10px 0 0 10px; color: black;">
                     {{ archivoSeleccionado ? archivoSeleccionado.name : 'Arrastra y suelta aqui el archivo' }}
                 </span>
                 <input type="file" #foto id="Imagen" name="Imagen" accept="image/png, image/jpeg" formControlName="idArchivo" (change)="onFileSelected($event)" style="display: none;" #inputFile>

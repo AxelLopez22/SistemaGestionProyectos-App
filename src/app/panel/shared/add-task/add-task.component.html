@@ -34,7 +34,7 @@
             <mat-grid-tile [colspan]="3" [rowspan]="1">
               <mat-form-field appearance="fill" color="primary" style="width: 100%;">
                 <mat-label>Fecha de entrega</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="fechaFin">
+                <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" formControlName="fechaFin">
                 <mat-hint>MM/DD/YYYY</mat-hint>
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>

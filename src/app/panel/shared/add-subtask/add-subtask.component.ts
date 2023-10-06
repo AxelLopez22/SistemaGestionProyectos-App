@@ -8,6 +8,8 @@ import { switchMap } from 'rxjs';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TaskService } from '../../services/task.service';
 import { ProyectService } from '../../services/proyect.service';
+import { LoginServicesService } from 'src/app/auth/services/login-services.service';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 
 @Component({
   selector: 'app-add-subtask',
@@ -30,7 +32,8 @@ export class AddSubtaskComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private httpService: UsuariosService, private httpStateServices: StateService,
     private route: ActivatedRoute, public dialogRef: MatDialogRef<AddSubtaskComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private taskServices: TaskService, private httpProyectService: ProyectService){
+    @Inject(MAT_DIALOG_DATA) public data: any, private taskServices: TaskService, private httpProyectService: ProyectService,
+    private loginServices: LoginServicesService, private dateAdapter: DateAdapter<Date>){
     this.tareaForm = this.fb.group({
       nombre: '',
       descripcion: ['', Validators.required],
@@ -39,6 +42,8 @@ export class AddSubtaskComponent implements OnInit {
       idArchivo: [],
       idPrioridad: [0, Validators.required]
     });
+
+    this.dateAdapter.setLocale('en-US');
   }
 
   ngOnInit(): void {
@@ -50,6 +55,11 @@ export class AddSubtaskComponent implements OnInit {
     this.getUserForSelect(this.idProyecto);
     this.GetPrioridades();
   }
+
+  dateFilter = (d: Date | null): boolean => {
+    const today = new Date();
+    return !d || d >= today; // Permitir solo fechas iguales o posteriores a hoy
+  };
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -96,6 +106,7 @@ export class AddSubtaskComponent implements OnInit {
         fechaFin: this.tareaForm.get('fechaFin')?.value,
         idUsuario: this.tareaForm.get('idUsuario')?.value,
         idPrioridad: this.tareaForm.get('idPrioridad')?.value,
+        idUsuarioCreador: Number(this.loginServices.getUserId()),
         idArchivo: idArchivo,
         idProyecto: this.idProyecto
       }
@@ -108,6 +119,7 @@ export class AddSubtaskComponent implements OnInit {
       fechaFin: this.tareaForm.get('fechaFin')?.value,
       idUsuario: this.tareaForm.get('idUsuario')?.value,
       idPrioridad: this.tareaForm.get('idPrioridad')?.value,
+      idUsuarioCreador: Number(this.loginServices.getUserId()),
       //idArchivo: 0,
       idProyecto: this.idProyecto
     }

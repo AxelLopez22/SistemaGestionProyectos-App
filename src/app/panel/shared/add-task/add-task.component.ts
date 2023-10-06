@@ -9,6 +9,8 @@ import { ActivatedRoute } from '@angular/router';
 import { TaskService } from '../../services/task.service';
 import { ProyectService } from '../../services/proyect.service';
 import { ToastrService } from 'ngx-toastr';
+import { LoginServicesService } from 'src/app/auth/services/login-services.service';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 
 @Component({
   selector: 'app-add-task',
@@ -29,7 +31,8 @@ export class AddTaskComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private httpService: UsuariosService, private dialog: MatDialog, 
     private httpStateServices: StateService, private route: ActivatedRoute, private taskServices: TaskService,
-    private httpProyectServices: ProyectService, private toastr: ToastrService){
+    private httpProyectServices: ProyectService, private toastr: ToastrService, private loginServices: LoginServicesService,
+    private dateAdapter: DateAdapter<Date>){
     this.tareaForm = this.fb.group({
       nombre: ['', Validators.required],
       descripcion: ['', Validators.required],
@@ -38,6 +41,8 @@ export class AddTaskComponent implements OnInit {
       idArchivo: [],
       idPrioridad: [0, Validators.required]
     });
+
+    this.dateAdapter.setLocale('en-US');
   }
 
   ngOnInit(): void {
@@ -52,6 +57,11 @@ export class AddTaskComponent implements OnInit {
     this.getUserForSelect(this.idProyecto);
     this.GetPrioridades();
   }
+
+  dateFilter = (d: Date | null): boolean => {
+    const today = new Date();
+    return !d || d >= today; // Permitir solo fechas iguales o posteriores a hoy
+  };
 
   onResize(event: any) {
     this.breakpoint = (event.target.innerWidth <= 600) ? 3 : 6;
@@ -132,6 +142,7 @@ export class AddTaskComponent implements OnInit {
         fechaFin: this.tareaForm.get('fechaFin')?.value,
         idUsuario: this.tareaForm.get('idUsuario')?.value,
         idPrioridad: this.tareaForm.get('idPrioridad')?.value,
+        idUsuarioCreador: Number(this.loginServices.getUserId()),
         idArchivo: idArchivo,
         idProyecto: this.idProyecto,
         subTareas: this.subTask
@@ -144,6 +155,7 @@ export class AddTaskComponent implements OnInit {
       fechaFin: this.tareaForm.get('fechaFin')?.value,
       idUsuario: this.tareaForm.get('idUsuario')?.value,
       idPrioridad: this.tareaForm.get('idPrioridad')?.value,
+      idUsuarioCreador: Number(this.loginServices.getUserId()),
       //idArchivo: idArchivo,
       idProyecto: this.idProyecto,
       subTareas: this.subTask
@@ -178,6 +190,7 @@ export class AddTaskComponent implements OnInit {
         nombre: element.nombre,
         descripcion: element.descripcion,
         fechaFin: element.fechaFin,
+        idUsuarioCreador: element.idUsuarioCreador,
         idProyecto: element.idProyecto,
         idArchivo: element.idArchivo,
         idPrioridad: element.idPrioridad.idPrioridad,
@@ -195,6 +208,7 @@ export class AddTaskComponent implements OnInit {
       idPrioridad: task.idPrioridad.idPrioridad,
       idArchivo: task.idArchivo,
       idProyecto: task.idProyecto,
+      idUsuarioCreador: task.idUsuarioCreador,
       subTareas: subTaskProcess
     }
     return dataToServer;

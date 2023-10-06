@@ -26,4 +26,8 @@ export class StateService {
   getStateByTask(IdTask: number){
     return this.http.get(this.UrlBase + `Estado/getStateByTask/${IdTask}`);
   }
+
+  getHistoryStateTask(IdTask: number){
+    return this.http.get(this.UrlBase + `Estado/getHistoryStateByTask/${IdTask}`);
+  }
 }

@@ -59,4 +59,20 @@ export class TaskService {
   agregarSubTareas(idTarea: number, subTareas: CreateSubTask[]){
     return this.http.post(this.urlBase + `Tareas/agregarSubTareas/${idTarea}`, subTareas);
   }
+
+  validarEstadoTarea(idTarea: number){
+    return this.http.post(this.urlBase + `Tareas/validarTarea/${idTarea}`,{});
+  }
+
+  mostrarTareasPorEstado(idProyecto: number){
+    return this.http.get(this.urlBase + `Tareas/tareasPorEstados/${idProyecto}`);
+  }
+
+  mostrarTareasPorUsuario(idUsuario:number){
+    return this.http.get(this.urlBase + `Tareas/tareasPorUsuario/${idUsuario}`);
+  }
+
+  obtenerDescripcionTarea(idTarea: number){
+    return this.http.get(this.urlBase + `Tareas/descripcionTarea/${idTarea}`);
+  }
 }

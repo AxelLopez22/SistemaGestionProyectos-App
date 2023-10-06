@@ -13,7 +13,7 @@
 
 
         <div class="tabla">
-          <table mat-table [dataSource]="dataSource">
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
             <!-- Checkbox Column -->
             <ng-container matColumnDef="select">
@@ -55,11 +55,30 @@
           </table>
         </div>
 
+        <div class="section-history">
+          <div style="display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
+            <h3 class="mt-4">Historial de Tareas</h3>
+            
+            <!-- <button mat-raised-button color="primary" (click)="openModal()">Agregar SubTareas</button> -->
+          </div>
+
+          <mat-card style="padding: 10px; display: flex; flex-direction: column; " *ngIf="historyTask">
+            <ng-container *ngFor="let element of historyTask; let last = last">
+              <div style="display: flex; justify-content: space-between; padding: 5px;">
+                <span>{{element.usuario}}</span>
+                <span>{{element.estados}}</span>
+                <span>{{formatDate(element.fecha)}}</span>
+              </div>
+              <mat-divider *ngIf="!last"></mat-divider>
+            </ng-container>
+          </mat-card>
+        </div>
+
     </div>
     <div class="section-comments">
       <div class="list-comments">
         <div class="section-state-task">
-          <select class="form-select form-select-sm" style="background-color: #545454; color: white; width: 40%;"
+          <select class="form-select form-select-sm" style="width: 40%;"
             (change)="onSelectEstado($event)">
             <option value="" disabled selected>-- Cambiar estado --</option>
             <option *ngFor="let estado of state" [value]="estado.idEstado">{{estado.nombre}}</option>
