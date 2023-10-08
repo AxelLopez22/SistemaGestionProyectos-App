@@ -7,6 +7,6 @@
       <span class="comment-user">{{ comment.usuario }}</span>
       <p style="font-size: 12px;">{{ formatDate(comment.fecha) }}</p>
     </div>
-    <p>{{ comment.descripcion }}</p>
+    <p [innerHTML]="comment.descripcion" style="white-space: pre-line;"></p>
   </div>
 </div>

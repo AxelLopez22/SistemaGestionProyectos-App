@@ -3,25 +3,27 @@
     width: 100%;
     display: flex;
     flex-direction: row;
-    padding: 1rem;
+    //padding: 1rem;
 
     .section-task{
         width: 60%;
-        height: calc(100vh - 80px);
+        padding: 1rem;
+        //height: calc(100vh - 80px);
         //overflow-y: auto;
         //border: 1px solid white;
     }
 
     .section-comments{
         width: 40%;
-        padding: 0 0 0 1rem;
-        height: calc(100vh - 80px);
-        //border: 1px solid white;
+        padding: 1rem;
+        height: calc(100vh - 254px);
+        overflow-y: auto;
+       // margin-left: 10px;
+        //border: 1px solid black;
 
         .list-comments{
-          //height: calc(100vh - 254px);
+          //h
           //overflow-y: auto;
-          //border: 1px solid white;
 
           .section-state-task{
             display: flex;
@@ -33,7 +35,7 @@
 
           .comment{
             //background-color: #545454;
-            height: calc(100vh - 340px);
+            //height: calc(100vh - 480px);
             overflow-y: auto;
             width: 100%;
           }
@@ -41,8 +43,11 @@
 
         .input-comment{
           //border: 1px solid #ccc;
+          position: absolute;
+          bottom: 0;
           padding-top: 10px;
           margin-bottom: 20px;
+          width: 38%;
           //background-color: #303030;
 
           textarea {
@@ -137,5 +142,9 @@ table {
           margin-top: 1.5rem;
           width: 100%;
         }
+    }
+
+    .section-history{
+      display: none;
     }
 }

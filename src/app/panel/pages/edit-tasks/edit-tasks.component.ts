@@ -2,13 +2,6 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TaskService } from '../../services/task.service';
 import { AgregarComentario, CreateSubTask, CreateTask, Estados, ListarComentarios, Task, TaskHistory, UpdateStateTask, UserLeaderProyect } from '../../models/models';
-import {
-  CdkDrag,
-  CdkDragDrop,
-  CdkDragPlaceholder,
-  CdkDropList,
-  moveItemInArray,
-} from '@angular/cdk/drag-drop';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { StateService } from '../../services/state.service';
@@ -47,8 +40,10 @@ export class EditTasksComponent implements OnInit {
   idTaskSelect!: number;
   subTask: CreateSubTask[] = [];
   historyTask: TaskHistory[] = [];
+  descripcion!: string;
   readonly baseUrl = environment.baseUrlHub;
   private connection!: HubConnection;
+  loader = false
 
   constructor(private route: ActivatedRoute, private httpTaskService: TaskService, private httpStateService: StateService,
     private httpUserService: LoginServicesService,  private dialog: MatDialog, private toastr: ToastrService, private datePipe: DatePipe){
@@ -57,7 +52,8 @@ export class EditTasksComponent implements OnInit {
       .build();
       
       this.connection.on('NotifyComment', comentario => {
-        if(comentario.idTarea){
+        if(comentario.idTarea === this.idTaskSelect){
+          comentario.descripcion = comentario.descripcion.replace(/\\n/g, '<br>');
           this.listaComentarios.push(comentario);
         }    
       });
@@ -85,6 +81,7 @@ export class EditTasksComponent implements OnInit {
       this.getStates(); 
       this.getEncargadoByProyect(this.idTask)
       this.cargarComentarios(this.idTask);
+      this.cargarDescripcion(this.idTaskSelect);
       
     });
   }
@@ -104,24 +101,13 @@ export class EditTasksComponent implements OnInit {
     });
   }
 
-  // formatDate(commentDate: Date): string {
-  //   const now = new Date();
-  //   const diff = now.getTime() - commentDate.getTime();
-
-  //   const minutes = Math.floor(diff / 60000); // Milisegundos a minutos
-  //   const hours = Math.floor(minutes / 60); // Minutos a horas
-  //   const days = Math.floor(hours / 24); // Horas a días
-
-  //   if (minutes < 1) {
-  //     return 'Hace un momento';
-  //   } else if (minutes < 60) {
-  //     return `Hace ${minutes} minutos`;
-  //   } else if (hours < 24) {
-  //     return `Hace ${hours} horas`;
-  //   } else {
-  //     return this.datePipe.transform(commentDate, 'medium') || '';
-  //   }
-  // }
+  cargarDescripcion(idTarea: number){
+    this.httpTaskService.obtenerDescripcionTarea(idTarea).subscribe({
+      next:(res: any) => {
+        this.descripcion = res.data
+      },
+    });
+  }
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files;
@@ -161,12 +147,13 @@ export class EditTasksComponent implements OnInit {
               next:(res: any) => {
                 if(res.success == true){
                   this.selectedTask = this.state.find(x => x.idEstado == Number(idEstado)) || this.selectedTask
+                  this.getHistoryByTask(newState.idTarea);
                 }
                 target.selectedIndex = 0;
               },
             });
             
-            this.getHistoryByTask(this.idTask);
+            this.getHistoryByTask(newState.idTarea);
 
           }      
         },
@@ -179,32 +166,14 @@ export class EditTasksComponent implements OnInit {
         next:(res: any) => {
           if(res.success == true){
             this.selectedTask = this.state.find(x => x.idEstado == Number(idEstado)) || this.selectedTask
+            this.getHistoryByTask(newState.idTarea);
           }
           target.selectedIndex = 0;
         },
       });
+
+      this.getHistoryByTask(newState.idTarea);
     }
-
-
-
-    // this.httpTaskService.validarEstadoTarea(newState.idTarea).subscribe({
-    //   next:(res:any) => {
-    //     if(res == false){
-    //       this.showAlert(false, "La tarea no se puede finalizar, hay subtareas pendientes");
-    //       return;
-    //     } else {
-          
-    //     }      
-    //   },
-    //   error:(err) => {
-    //     this.showAlert(false, "Ha ocurrido un error, intentalo mas tarde");
-    //   },
-    // });
-
-    console.log("despues de la validacion");
-    
-   
-    
   }
 
   getStates(){
@@ -235,7 +204,17 @@ export class EditTasksComponent implements OnInit {
     this.httpTaskService.obtenerComentarios(idTarea).subscribe({
       next: (res: any) => {
         this.listaComentarios = []
-        this.listaComentarios = res.data
+        this.listaComentarios = res.data ? res.data.map((coment:ListarComentarios) => {
+          coment.idComentario = coment.idComentario
+          coment.descripcion = coment.descripcion.replace(/\\n/g, '<br>')
+          coment.fecha = coment.fecha
+          coment.foto = coment.foto
+          coment.usuario = coment.usuario
+          coment.idTarea = coment.idTarea
+          return coment;
+        }) : [];
+        console.log(this.listaComentarios);
+        
       },error: (err: any) => {
         console.log("Ocurrio un error");
       },
@@ -272,8 +251,9 @@ export class EditTasksComponent implements OnInit {
       return;
     }
 
+
     let comentario: AgregarComentario = {
-      descripcion: this.comment,
+      descripcion: this.comment.replace(/\n/g, "\\n"),
       idTarea: this.idTaskSelect,
       idUsuario: Number(this.httpUserService.getUserId()),
     }
@@ -364,6 +344,7 @@ export class EditTasksComponent implements OnInit {
     this.getStateByTask(row.idTarea);
     this.cargarComentarios(row.idTarea);
     this.getHistoryByTask(row.idTarea);
+    this.cargarDescripcion(this.idTaskSelect);
   }
 
   checkboxLabel(row: Task): string {  

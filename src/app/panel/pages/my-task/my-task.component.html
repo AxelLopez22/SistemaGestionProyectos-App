@@ -59,30 +59,46 @@
     </div>
 
 
-    <div class="section-description" *ngIf="idTaskSelect">
-        <div class="section-state-task">
+
+    <div class="section-description">
+      <mat-spinner style="display: flex; margin: 10rem auto;" *ngIf="loader; else sectionComment"></mat-spinner>
+      <ng-template #sectionComment>
+        <div *ngIf="idTaskSelect">
+          <div class="section-state-task">
             <select class="form-select form-select-sm" style="width: 40%;"
               (change)="onSelectEstado($event)">
               <option value="" disabled selected>-- Cambiar estado --</option>
               <option *ngFor="let estado of state" [value]="estado.idEstado">{{estado.nombre}}</option>
             </select>
             <span *ngIf="selectedTask">Estado: <strong>{{selectedTask.nombre}}</strong></span>
-        </div>
-
-        <div style="margin: 1rem;">
-            <h2>Descripcion:</h2>
-            <span>{{descripcion}}</span>
-        </div>
-
-        <h3 style="margin-left: 1rem;">Comentarios:</h3>
-
-        <div class="comment">
-            <ng-container *ngFor="let comment of listaComentarios; let i = index; let last = last">
-              <div style="margin-left: 1rem; margin-top: 0.6rem; margin-right: 0.8rem;">
-                <app-comment [comments]="[comment]"></app-comment>
-              </div>
-              <mat-divider *ngIf="!last && i !== listaComentarios.length - 1" class="divider"></mat-divider>
-            </ng-container>
-        </div>
+          </div>
+  
+          <div style="margin: 1rem;">
+              <h2>Descripcion:</h2>
+              <span>{{descripcion}}</span>
+          </div>
+  
+          <h3 style="margin-left: 1rem;">Comentarios:</h3>
+  
+          <div class="comment">
+              <ng-container *ngFor="let comment of listaComentarios; let i = index; let last = last">
+                <div style="margin-left: 1rem; margin-top: 0.6rem; margin-right: 0.8rem;">
+                  <app-comment [comments]="[comment]"></app-comment>
+                </div>
+                <mat-divider *ngIf="!last && i !== listaComentarios.length - 1" class="divider"></mat-divider>
+              </ng-container>
+          </div>
+          
+  
+  
+          <div class="input-comment">
+            <textarea matInput [(ngModel)]="comment" placeholder="Escribe un comentario..." (input)="handleTextareaInput()"></textarea>
+            <div class="input-container">
+              <input class="form-control comment-input" type="file" (change)="onFileSelected($event)">
+              <button mat-raised-button color="primary" (click)="submitComment()">Enviar</button>
+            </div>   
+          </div>
+        </div>   
+      </ng-template>   
     </div>
 </div>

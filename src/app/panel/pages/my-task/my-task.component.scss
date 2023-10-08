@@ -21,8 +21,62 @@
         //border: 1px solid black;
         padding: 1rem;
         width: 45%;
-        height: calc(100vh - 130px);
+        height: calc(100vh - 320px);
         overflow-y: auto;
+
+        // .section-task-desc{
+            
+        // }
+
+        .input-comment{
+            //border: 1px solid #ccc;
+            position: absolute;
+            bottom: 0;
+            padding-top: 10px;
+            margin-bottom: 20px;
+            width: 43%;
+            //background-color: #303030;
+  
+            textarea {
+              width: 100%;
+              padding: 8px;
+              height: 100px;
+              border: 1px solid #303030;
+              border-radius: 4px;
+              resize: vertical;
+              resize: none;
+              //background-color: #545454; /* Cambia el color de fondo según tu tema */
+              //color: white;
+            }
+  
+            .input-container {
+              display: flex;
+              align-items: center;
+            }
+  
+            .comment-input {
+              flex: 1;
+              margin-right: 10px;
+            }
+  
+            input[type="file"] {
+              margin-top: 10px;
+              width: 400px;
+              //background-color: #545454;
+              //color: white;
+            }
+  
+            button {
+              margin-top: 10px;
+              // background-color: #007bff;
+              // color: white;
+              // border: none;
+              // padding: 8px 15px;
+              // border-radius: 4px;
+              cursor: pointer;
+              float: right;
+            }
+          }
     }
 }
 
@@ -42,7 +96,7 @@
         .section-task{
             //border: 1px solid black;
             width: 100%;
-            height: calc(100vh - 130px);
+            //height: 50vh;
             overflow-y: auto;
             //padding-top:1rem ;
         }
@@ -50,8 +104,16 @@
         .section-description{
             //border: 1px solid black;
             width: 100%;
-            height: calc(100vh - 130px);
+            height: 80vh;
             overflow-y: auto;
+
+            .input-comment{
+              position: relative;
+              // bottom: 0;
+              //padding-top: 10px;
+              //margin-bottom: 20px;
+              width: 100%;
+            }
         }
     }
 }
