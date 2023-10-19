@@ -1,0 +1,83 @@
+<div class="form-create-user">
+    <h1>Crear Usuario</h1>
+
+    <mat-divider></mat-divider>
+
+    <div class="form-user">
+        <form [formGroup]="usuarioForm">
+            <mat-grid-list [cols]="breakpoint" (window:resize)="onResize($event)" rowHeight="70px" gutterSize="10px" style="margin: 10px;">
+                <mat-grid-tile [colspan]="3" [rowspan]="1">
+                    <mat-form-field appearance="fill" color="primary" style="width: 100%;">
+                      <mat-label>Nombres</mat-label>
+                      <input type="text" matInput formControlName="nombres">
+                      <!-- <mat-hint style="color: red;font-size: 13px"
+                        *ngIf="clientesForm.get('nombres')?.touched && clientesForm.get('nombres')?.errors?.['required']">
+                        Nombres requeridos
+                      </mat-hint> -->
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="3" [rowspan]="1">
+                    <mat-form-field appearance="fill" color="primary" style="width: 100%;">
+                      <mat-label>Apellidos</mat-label>
+                      <input type="text" matInput formControlName="apellidos">
+                      <!-- <mat-hint style="color: red;font-size: 13px"
+                        *ngIf="clientesForm.get('nombres')?.touched && clientesForm.get('nombres')?.errors?.['required']">
+                        Nombres requeridos
+                      </mat-hint> -->
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="3" [rowspan]="1">
+                    <mat-form-field appearance="fill" color="primary" style="width: 100%;">
+                      <mat-label>Correo</mat-label>
+                      <input type="text" matInput formControlName="correo">
+                      <!-- <mat-hint style="color: red;font-size: 13px"
+                        *ngIf="clientesForm.get('nombres')?.touched && clientesForm.get('nombres')?.errors?.['required']">
+                        Nombres requeridos
+                      </mat-hint> -->
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="3" [rowspan]="1">
+                    <mat-form-field appearance="fill" color="primary" style="width: 100%;">
+                      <mat-label>Contraseña</mat-label>
+                      <input type="text" matInput formControlName="contrasenia">
+                      <!-- <mat-hint style="color: red;font-size: 13px"
+                        *ngIf="clientesForm.get('nombres')?.touched && clientesForm.get('nombres')?.errors?.['required']">
+                        Nombres requeridos
+                      </mat-hint> -->
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="3" [rowspan]="1">
+                    <label class="custom-file-input" (dragover)="onDragOver($event)" (drop)="onDrop($event)" (click)="inputFile.click()">
+                        <span style="text-align: center; margin: 10px 0 0 10px;">
+                            {{ archivoSeleccionado ? archivoSeleccionado.name : 'Arrastra y suelta aqui la foto' }}
+                        </span>
+                        <input type="file" #foto id="Imagen" name="Imagen" accept="image/png, image/jpeg" formControlName="foto" (change)="onFileSelected($event)" style="display: none;" #inputFile>
+                    </label>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="3" [rowspan]="1">
+                    <mat-form-field appearance="fill" color="primary" style="width: 100%;">
+                      <mat-label>Rol</mat-label>
+                      <mat-select formControlName="idRol">
+                        <mat-option *ngFor="let element of listaRoles" [value]="element.idRol">
+                          {{element.nombre}}
+                        </mat-option>
+                      </mat-select>
+                      
+                    </mat-form-field>
+                </mat-grid-tile>
+            </mat-grid-list>
+
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <button mat-raised-button color="primary" [disabled]="usuarioForm.invalid" (click)="CrearUsuario()">Agregar Usuario</button>
+            </div>
+        </form>
+        
+    </div>
+
+    <mat-progress-bar class="mt-5" *ngIf="progressBar" mode="indeterminate"></mat-progress-bar>
+</div>

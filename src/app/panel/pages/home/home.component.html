@@ -1,5 +1,14 @@
 <div class="main-home">
-  <h1>Inicio</h1>
+
+  <div style="display: flex; flex-direction: row; justify-content: space-between;">
+    <h1 class="inicio">Inicio</h1>
+    <div class="button-section">
+      <button style="margin-right: 10px;" mat-raised-button color="primary" [routerLink]="'/panel/verEstadisticas'" *ngIf="shouldShowButton()">Estadisticas</button>
+      <button mat-raised-button color="primary" [routerLink]="'/panel/crearUsuario'" *ngIf="shouldShowButton()">Agregar Usuario</button>
+    </div>
+  </div>
+  
+  <mat-divider></mat-divider>
 
   <div class="section-name">
     <span>{{fechaActual | date: 'fullDate'}}</span>

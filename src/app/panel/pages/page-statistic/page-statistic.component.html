@@ -1,0 +1,23 @@
+
+<div style="display: flex; margin: 1rem; flex-direction: column;">
+    <h1>Estadisticas de Usuarios</h1>
+    <mat-divider></mat-divider>
+
+   
+        <canvas *ngIf="labels.length > 0"
+            baseChart
+            class="chart"
+            [data]="barChartData"
+            [options]="barChartOptions"
+            [type]="barChartType"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"
+        >
+        </canvas>
+
+</div>
+
+
+
+
+

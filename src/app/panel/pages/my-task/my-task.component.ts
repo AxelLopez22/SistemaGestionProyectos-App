@@ -1,12 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { AgregarComentario, Estados, ListarComentarios, TaskByUser, UpdateStateTask } from '../../models/models';
+import { AgregarComentario, Estados, ListarComentarios, MencionarUsuario, TaskByUser, UpdateStateTask, UserSelect } from '../../models/models';
 import { TaskService } from '../../services/task.service';
 import { LoginServicesService } from 'src/app/auth/services/login-services.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { StateService } from '../../services/state.service';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { environment } from 'src/environments/environment';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { ToastrService } from 'ngx-toastr';
+import { DatePipe } from '@angular/common';
+import { Observable, map, of, startWith } from 'rxjs';
+import { UsuariosService } from '../../services/usuarios.service';
+import { FormControl } from '@angular/forms';
+
 
 @Component({
   selector: 'app-my-task',
@@ -16,10 +23,13 @@ import { environment } from 'src/environments/environment';
 export class MyTaskComponent implements OnInit {
 
   displayedColumns: string[] = ['select', 'nombre', 'estado', 'prioridad','fechafin'];
+  displayedColumnsTaskColaborator: string[] = ['select', 'nombre', 'estado', 'prioridad','fechafin'];
   dataSource = new MatTableDataSource<TaskByUser>();
+  dataSourceTaskColaborator = new MatTableDataSource<TaskByUser>();
   selection = new SelectionModel<TaskByUser>(true, []);
   idTaskSelect!: number;
   selectedTask!: Estados;
+  tarea: TaskByUser = {} as TaskByUser; 
   state: Estados[] = [];
   idUsuario!: number;
   descripcion!: string;
@@ -31,8 +41,16 @@ export class MyTaskComponent implements OnInit {
   loader = false
   readonly baseUrl = environment.baseUrlHub;
   private connection!: HubConnection;
+  fechaTareas!: Date;
+  filteredStates!: Observable<UserSelect[]>;
+  listUser: UserSelect[] = [];
+  usuariosSeleccionados: UserSelect[] = [];
+  stateCtrl = new FormControl('');
+  mentions: string[] = [];
 
-  constructor(private httpTaskServices: TaskService, private httpUserService: LoginServicesService, private httpStateService: StateService,){
+  constructor(private httpTaskServices: TaskService, private httpUserService: LoginServicesService, private httpStateService: StateService,
+    private toastr: ToastrService, private datepipe: DatePipe, private httpUserServices: UsuariosService, 
+    ){
     this.connection = new HubConnectionBuilder()
       .withUrl(`${this.baseUrl}/hub/comment`)
       .build();
@@ -43,6 +61,11 @@ export class MyTaskComponent implements OnInit {
           this.listaComentarios.push(comentario);
         }    
       });
+
+      this.filteredStates = this.stateCtrl.valueChanges.pipe(
+        startWith(''),
+        map(state => (state ? this._filterStates(state) : this.listUser.slice())),
+      );
   }
 
   ngOnInit(): void {
@@ -56,6 +79,8 @@ export class MyTaskComponent implements OnInit {
     this.idUsuario = this.httpUserService.getUserId();
     if(this.idUsuario){
       this.cargarTareasUsuario(this.idUsuario);
+      this.cargarTareasMencionadas(this.idUsuario);
+      this.getUsuarios();
     }
   }
 
@@ -63,6 +88,14 @@ export class MyTaskComponent implements OnInit {
     this.httpTaskServices.mostrarTareasPorUsuario(idUsuario).subscribe({
       next:(res:any) => {
         this.dataSource.data = res.data;
+      },
+    });
+  }
+
+  cargarTareasMencionadas(idUsuario: number){
+    this.httpTaskServices.mostrarTareasMencionadas(idUsuario).subscribe({
+      next:(res: any) => {
+        this.dataSourceTaskColaborator.data = res.data
       },
     });
   }
@@ -76,15 +109,45 @@ export class MyTaskComponent implements OnInit {
     this.selection.toggle(row);
     this.idTaskSelect = row.idTarea
 
+    const foundTask = this.dataSource.data.find(x => x.idTarea === this.idTaskSelect);
+    if (foundTask) {
+      this.tarea = foundTask;
+      if (this.tarea.fechaFin) {
+        this.tarea.fechaFin = new Date(this.tarea.fechaFin);
+      }
+    } else {
+      this.tarea = {} as TaskByUser;
+    }
+    //console.log(this.tarea?.fechaFin);
+    
+
     this.getStateByTask(this.idTaskSelect)
     this.getStates(); 
     this.cargarDescripcion(this.idTaskSelect);
     this.cargarComentarios(this.idTaskSelect);
+    this.listarUsuariosMencionados(this.idTaskSelect);
     this.loader = true;
     
     setTimeout(() => {  
       this.loader = false;
     }, 1500);
+  }
+
+  onDateSelected(event: any){
+    const selectedDate = event.value;
+    let fecha = selectedDate.toISOString();
+
+    
+    this.httpTaskServices.cambiarFechaEntrega(this.idTaskSelect, fecha).subscribe({
+      next:(res: any) => {
+        if(res.success == true){
+          this.showAlert(true, "Fecha cambiada con exito");
+        }
+      },
+      error:(err) => {
+        this.showAlert(false, "Error al cambiar fecha");
+      },
+    });
   }
 
   getStateByTask(idTask: number){
@@ -94,6 +157,16 @@ export class MyTaskComponent implements OnInit {
       },
     });
   }
+
+  listarUsuariosMencionados(idTarea: number){
+    this.httpTaskServices.mostrarUsuariosMencionados(idTarea).subscribe({
+      next: (res: any) => {
+        this.usuariosSeleccionados = res.data;
+        console.log(this.usuariosSeleccionados);
+      },
+    });
+  }
+  
 
   getStates(){
     this.httpStateService.getStates().subscribe({
@@ -151,7 +224,6 @@ export class MyTaskComponent implements OnInit {
           coment.idTarea = coment.idTarea
           return coment;
         }) : [];
-        console.log(this.listaComentarios);
         
       },error: (err: any) => {
         console.log("Ocurrio un error");
@@ -159,16 +231,97 @@ export class MyTaskComponent implements OnInit {
     })
   }
 
+  dateFilter = (d: Date | null): boolean => {
+    const today = new Date();
+    return !d || d >= today; // Permitir solo fechas iguales o posteriores a hoy
+  };
+
   handleTextareaInput() {
-    const mentionPattern = /@([\w]+)/g;  
-    const matches = this.comment.match(mentionPattern);
-    //console.log(matches);
+    // const mentionPattern = /@([\w]+)/g;  
+    // const matches = this.comment.match(mentionPattern);
+    
+    // if(matches){
+      
+    //   this.getUsuarios();
+    //   const searchTerm = matches[matches.length - 1].slice(1);
+    //   console.log("searchTerm:", searchTerm);
+    //   console.log("this.listUser:", this.listUser); 
+    //   const filteredUsers = this.listUser.filter(user => user.nombresCompleto.toLowerCase().includes(searchTerm.toLowerCase()));
+    //   this.filteredStates = of(filteredUsers);
+
+    //   const usuarioSeleccionado = this.listUser.find(state => state.nombresCompleto.toLowerCase().includes(searchTerm.toLowerCase())) || '';
+    //   //const textoAnterior = this.comment.substring(0, this.comment.lastIndexOf('@'));
+    //   //console.log(usuarioSeleccionado);
+      
+      
+    //   if (usuarioSeleccionado) {
+    //     console.log("Dentro del if UsuarioSeleccionado");
+        
+    //     this.usuariosSeleccionados.push(usuarioSeleccionado);
+    //     console.log(this.usuariosSeleccionados);
+    //     const textoAnterior = this.comment.substring(0, this.comment.lastIndexOf('@'));      
+    //     this.comment = textoAnterior + `@${usuarioSeleccionado.nombresCompleto} `;
+  
+    //   }
+    // } else {
+    //   this.listUser = [];
+    //   this.filteredStates = of([]);
+    // } 
+  }
+
+  onCommentChange(newValue: string){
+    this.comment = newValue;
+  }
+
+  getUsuarios(){
+    this.httpUserServices.getUsuarios().subscribe({
+      next:(res:any) => {
+        this.listUser = res.data
+      },
+    });
+  }
+
+  private _filterStates(value: string): UserSelect[] {
+    const filterValue = value.toLowerCase();
+    return this.listUser.filter(state => state.nombresCompleto.toLowerCase().includes(filterValue));
   }
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files;
     this.archivos = this.selectedFile;
     this.archivoSeleccionado = event.target.files[0]; 
+  }
+
+  agregarUsuario(){
+    const usuarioSeleccionado = this.listUser.find(state => state.nombresCompleto === this.stateCtrl.value);
+    
+    if (usuarioSeleccionado) {
+      console.log(usuarioSeleccionado);
+
+      let usrMencion: MencionarUsuario = {
+        idTarea: this.idTaskSelect,
+        idUsuarioMencionado: usuarioSeleccionado.idUsuario,
+        idUsuarioMencion: Number(this.httpUserService.getUserId())
+      };
+
+      console.log(usrMencion);
+
+      this.httpTaskServices.mencionarUsuario(usrMencion).subscribe({
+        next:(res:any) => {
+          if(res.success == true){
+            this.showAlert(true, "Colaborador agregado correctamente");
+            this.usuariosSeleccionados.push(usuarioSeleccionado);
+            
+          }
+        },
+        error:(err) => {
+          this.showAlert(false, "Ha ocurrido un error al agregar al colaborador");
+        },
+      });
+      
+    }
+    
+    this.stateCtrl.setValue('');
   }
 
   submitComment() {
@@ -223,5 +376,23 @@ export class MyTaskComponent implements OnInit {
         return false
       },
     });
+  }
+
+  showAlert(isSuccess:boolean,mensaje:string){
+    isSuccess === true ? this.toastr.success(`${mensaje}`,"",{
+        timeOut: 2000,
+        closeButton: true,
+        progressBar: true,
+        progressAnimation: 'decreasing',
+        easing: 'ease-in',
+        easeTime: 300
+      } ): this.toastr.error(`${mensaje}`,"",{
+      timeOut: 2000,
+      closeButton: true,
+      progressBar: true,
+      progressAnimation: 'decreasing',
+      easing: 'ease-in',
+      easeTime: 300
+    } )
   }
 }

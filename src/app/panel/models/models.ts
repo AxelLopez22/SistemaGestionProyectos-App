@@ -150,3 +150,27 @@ export interface TaskByUser{
   prioridad: string,
   fechaFin: Date
 }
+
+export interface MencionarUsuario {
+  idTarea: number,
+  idUsuarioMencionado: number,
+  idUsuarioMencion: number
+}
+
+export interface ListaRoles{
+  idRol: number,
+  nombre: string
+}
+
+export interface createUser {
+  Nombres: string,
+  Apellidos: string,
+  Correo: string,
+  Contrasenia: string,
+  foto: File
+}
+
+export interface asignarRol{
+  idRol: number,
+  idUsuario: number
+}

@@ -21,6 +21,8 @@ import { AddTaskComponent } from './shared/add-task/add-task.component';
 import { AddSubtaskComponent } from './shared/add-subtask/add-subtask.component';
 import { EditTasksComponent } from './pages/edit-tasks/edit-tasks.component';
 import { CommentComponent } from './shared/comment/comment.component';
+import { CreateUserComponent } from './pages/create-user/create-user.component';
+import { PageStatisticComponent } from './pages/page-statistic/page-statistic.component';
 
 
 @NgModule({
@@ -38,7 +40,9 @@ import { CommentComponent } from './shared/comment/comment.component';
     AddTaskComponent,
     AddSubtaskComponent,
     EditTasksComponent,
-    CommentComponent
+    CommentComponent,
+    CreateUserComponent,
+    PageStatisticComponent
   ],
   imports: [
     CommonModule,

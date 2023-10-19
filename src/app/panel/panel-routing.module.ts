@@ -7,6 +7,8 @@ import { MyTaskComponent } from './pages/my-task/my-task.component';
 import { ProyectoComponent } from './pages/proyecto/proyecto.component';
 import { AddTaskComponent } from './shared/add-task/add-task.component';
 import { EditTasksComponent } from './pages/edit-tasks/edit-tasks.component';
+import { CreateUserComponent } from './pages/create-user/create-user.component';
+import { PageStatisticComponent } from './pages/page-statistic/page-statistic.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'panel', pathMatch: 'full'},
@@ -16,7 +18,9 @@ const routes: Routes = [
     {path: 'inbox', component: InboxComponent},
     {path: 'proyecto/:id', component: ProyectoComponent},
     {path: 'proyecto/:id/agregarTarea', component: AddTaskComponent},
-    {path: 'proyecto/:id/editarTarea/:idTarea', component: EditTasksComponent}
+    {path: 'proyecto/:id/editarTarea/:idTarea', component: EditTasksComponent},
+    {path: 'crearUsuario', component: CreateUserComponent},
+    {path: 'verEstadisticas', component: PageStatisticComponent}
   ]}
 ];
 

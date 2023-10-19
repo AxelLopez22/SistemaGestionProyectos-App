@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AgregarComentario, CreateSubTask, CreateTask, UpdateStateTask } from '../models/models';
+import { AgregarComentario, CreateSubTask, CreateTask, MencionarUsuario, UpdateStateTask, UserSelect } from '../models/models';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -74,5 +74,25 @@ export class TaskService {
 
   obtenerDescripcionTarea(idTarea: number){
     return this.http.get(this.urlBase + `Tareas/descripcionTarea/${idTarea}`);
+  }
+
+  cambiarFechaEntrega(idTarea: number, nuevaFecha: String){
+    return this.http.put(this.urlBase + `Tareas/cambiarFechaEntrega/${idTarea}/${nuevaFecha}`,{});
+  }
+
+  mencionarUsuario(user: MencionarUsuario){
+    return this.http.post(this.urlBase + `Menciones/mencionarUsuario`, user);
+  }
+
+  mostrarUsuariosMencionados(idTarea: number){
+    return this.http.get(this.urlBase + `Menciones/usuariosMencionados/${idTarea}`);
+  }
+
+  mostrarTareasMencionadas(idUsuario: number){
+    return this.http.get(this.urlBase + `Tareas/tareasPorUsuarioMencionado/${idUsuario}`);
+  }
+
+  estadisticasPorUsuarios(){
+    return this.http.get(this.urlBase + 'Tareas/estadisticasUsuarios');
   }
 }

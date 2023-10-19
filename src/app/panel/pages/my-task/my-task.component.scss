@@ -1,5 +1,24 @@
 .header-section{
     padding: 1rem 1rem 0 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    .section-user{
+      display: flex;
+      justify-content: flex-start;
+      width: 40%;
+      //border: 1px solid black;
+      margin-right: 10px;
+      margin-left: 10px;
+      width: max-content;
+      align-items: center;
+
+      div img{
+        cursor: pointer;
+      }
+    }
 }
 
 .first-section{
@@ -12,9 +31,13 @@
     .section-task{
         //border: 1px solid black;
         width: 55%;
-        height: calc(100vh - 130px);
-        overflow-y: auto;
+        
         //padding-top:1rem ;
+
+        .table-section{
+          height: calc(100vh - 178px);
+        overflow-y: auto;
+        }
     }
 
     .section-description{
@@ -24,9 +47,20 @@
         height: calc(100vh - 320px);
         overflow-y: auto;
 
-        // .section-task-desc{
-            
-        // }
+        .form-section{
+          margin-top: 1rem; 
+          display: flex; 
+          flex-direction: row; 
+          justify-content: space-between;
+
+          .fecha{
+            width: 35%;
+          }
+
+          .busqueda{
+            width: 55%;
+          }
+        }
 
         .input-comment{
             //border: 1px solid #ccc;
@@ -85,6 +119,23 @@
     justify-content: space-between;
 }
 
+@media screen and (max-width: 1100px) {
+  .form-section{
+    margin-top: 1rem; 
+    display: flex; 
+    flex-direction: column; 
+    //justify-content: space-between;
+
+    .fecha{
+      width: 100%;
+    }
+
+    .busqueda{
+      width: 100%;
+    }
+  }
+}
+
 @media screen and (max-width: 768px) {
     .first-section{
         display: flex;
@@ -98,13 +149,14 @@
             width: 100%;
             //height: 50vh;
             overflow-y: auto;
+            height: 35vh;
             //padding-top:1rem ;
         }
     
         .section-description{
             //border: 1px solid black;
             width: 100%;
-            height: 80vh;
+            //height: 70vh;
             overflow-y: auto;
 
             .input-comment{

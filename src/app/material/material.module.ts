@@ -39,6 +39,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import {MatNativeDateModule} from '@angular/material/core';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { NgChartsModule } from 'ng2-charts';
 
 
 @NgModule({
@@ -86,7 +87,8 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     MatTreeModule,
     MatNativeDateModule,
     MatExpansionModule,
-    DragDropModule
+    DragDropModule,
+    NgChartsModule
   ]
 })
 export class MaterialModule { }

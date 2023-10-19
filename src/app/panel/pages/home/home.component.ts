@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit {
   tareasFinalizadas: TareasEstados[] = []
   cantTareasProximas!: number;
   cantTareasRetrasadas!: number;
+  roles: string[] = [];
   //cantTareasFinalizadas!: number;
   ids: string[] = [];
   cantTareasFin!: number | undefined
@@ -33,7 +34,7 @@ export class HomeComponent implements OnInit {
   private connection!: HubConnection;
 
   constructor(private httpServiceUser: LoginServicesService, private httpProyectService: ProyectService, 
-    private httpTaskService:TaskService){
+    private httpTaskService:TaskService,  private httpService: LoginServicesService){
     
     this.connection = new HubConnectionBuilder()
       .withUrl(`${this.baseUrl}/hub/group`)
@@ -64,7 +65,7 @@ export class HomeComponent implements OnInit {
     this.TareasFinalizadas();
     this.TareasRetrasadas();
 
-
+    this.roles = this.httpService.getRoles();
   }
 
   GetProyect(){
@@ -82,6 +83,10 @@ export class HomeComponent implements OnInit {
     //
   }
 
+  shouldShowButton(): boolean {
+    return this.roles.includes('Administrador') //|| this.roles.includes('Lider de Proyecto');
+  }
+
   obtenerIdsProyect(proyectos: ProyectByUser[]){
     proyectos.forEach((element:ProyectByUser) => {
       this.ids.push(element.idProyecto.toString());
@@ -97,6 +102,7 @@ export class HomeComponent implements OnInit {
           this.cantTareasProximas = this.tareasProximas.length;
         } else {
           this.tareasProximas = []
+          this.cantTareasProximas = 0;
         }
       },
     });
@@ -110,6 +116,7 @@ export class HomeComponent implements OnInit {
           this.cantTareasRetrasadas = this.tareasRetrasadas.length;
         } else {
           this.tareasRetrasadas = []
+          this.cantTareasRetrasadas = 0;
         }
       },
     });

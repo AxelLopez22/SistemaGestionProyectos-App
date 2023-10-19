@@ -36,6 +36,7 @@ export class ProyectoComponent implements OnInit {
   idNewState: number = 0;
   loader = false
   tasks: Task[] = [];
+  originalTask: Task[] = this.tasks;
   displayedColumns: string[] = ['nombre', 'descripcion', 'estado'];
   selectedTabIndex: number = 0;
   filter: TaskFilter = {
@@ -137,29 +138,25 @@ export class ProyectoComponent implements OnInit {
   searchTask(value: string) {
     value = value.toLowerCase();
 
-    if (value.length > 0) {
-      this.tasks = this.tasks.filter(task => {
-        task.subTareas = task.subTareas.filter(subTask => {
+    console.log(value);
+    
+
+    if (value.length === 0) {
+      this.originalTask = this.tasks;
+      return;
+    }
+
+    // Aplica el filtro sobre la lista original
+    this.tasks = this.tasks.map(task => {
+        const filteredSubTasks = task.subTareas.filter(subTask => {
           return subTask.nombre.toLowerCase().includes(value) || subTask.descripcion.toLowerCase().includes(value);
         });
 
-        return task.subTareas.length > 0;
-      });
-    } else {
-      // Si el campo de búsqueda está vacío, mostrar todas las tareas originales.
-      this.tasks = this.tasks.slice(); // Crear una copia para evitar modificar originalTasks.
-    }
+        // Crea un nuevo objeto de tarea que contiene solo las subTareas filtradas
+        return { ...task, subTareas: filteredSubTasks };
+      }).filter(task => task.subTareas.length > 0);
   }
 
-  // updateListTask(){
-  //   this.tasks = []
-
-  //   let exist = false;
-
-  //   for(let subtasks of t)
-
-  // }
-  
 
   guardarUsuarios(){
     if(this.userSelected.length > 0){

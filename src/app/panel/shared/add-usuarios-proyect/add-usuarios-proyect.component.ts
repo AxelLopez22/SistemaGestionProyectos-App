@@ -34,7 +34,6 @@ export class AddUsuariosProyectComponent implements OnInit {
     
     if (usuarioSeleccionado) {
       this.usuariosSeleccionados.push(usuarioSeleccionado);
-      console.log(this.usuariosSeleccionados);
     }
     
     this.stateCtrl.setValue('');
