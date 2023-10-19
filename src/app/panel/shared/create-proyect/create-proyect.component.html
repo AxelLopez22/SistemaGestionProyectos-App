@@ -2,14 +2,14 @@
   <h1 mat-dialog-title>Crear un proyecto</h1>
   <div mat-dialog-content>
     <form [formGroup]="createProyectForm" (ngSubmit)="createProyect()" class="form-create-proyect">
-      <mat-form-field color="accent">
+      <mat-form-field color="primary">
         <input matInput type="email" placeholder="Nombre Proyecto" formControlName="Nombre" required>
         <mat-error>
           Debes ingresar el nombre al proyecto
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field color="accent">
+      <mat-form-field color="primary">
         <textarea matInput placeholder="Descripcion" formControlName="Descripcion" required></textarea>
         <mat-error>
           Debe ingresar una direccion
@@ -39,7 +39,7 @@
         </mat-select>
       </mat-form-field>
 
-      <button mat-raised-button color="accent" [disabled]="this.createProyectForm.invalid">Crear</button>
+      <button mat-raised-button color="primary" [disabled]="this.createProyectForm.invalid">Crear</button>
     </form>
     <div mat-dialog-actions>
       <button mat-button mat-dialog-close>Cerrar</button>
